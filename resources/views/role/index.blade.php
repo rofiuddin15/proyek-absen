@@ -2,18 +2,30 @@
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4">
+    <h4 class="fw-bold py-2 mb-2">
         <span class="text-muted fw-light">Penugasan /</span> Daftar Penugasan</h4>
         <!-- Basic Bootstrap Table -->
     <div class="card">
-        <div class="card-header flex-column flex-md-row"><div class="head-label text-center"><h5 class="card-title mb-0">DataTable with Buttons</h5></div><div class="dt-action-buttons text-end pt-3 pt-md-0"><div class="dt-buttons btn-group flex-wrap"> <div class="btn-group"><button class="btn buttons-collection dropdown-toggle btn-label-primary me-2" tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="dialog" aria-expanded="false"><span><i class="bx bx-export me-sm-1"></i> <span class="d-none d-sm-inline-block">Export</span></span></button></div> <button class="btn btn-secondary create-new btn-primary" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span><i class="bx bx-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add New Record</span></span></button> </div></div></div>
+        <div class="card-header flex-column flex-md-row">
+          
+          <div class="dt-action-buttons text-end pt-1 pt-md-0">
+            <div class="dt-buttons btn-group flex-wrap">              
+              <button class="btn btn-sm btn-secondary create-new btn-primary" tabindex="0" aria-controls="DataTables_Table_0" type="button">
+                <span><i class="bx bx-plus me-sm-1"></i>
+                  <span class="d-none d-sm-inline-block">Data Baru</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
       <div class="table-responsive text-nowrap">
         <table class="table table-stripped">
           <thead>
+
             <tr>
               <th>#</th>
               <th>Nama Role (Penugasan)</th>
-              <th>Actions</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody class="table-border-bottom-0">

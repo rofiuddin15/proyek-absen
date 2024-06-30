@@ -12,7 +12,8 @@ class ShiftGrupController extends Controller
      */
     public function index()
     {
-        //
+        $data = ShiftGrup::all();
+        return view("shift.grup.index", compact("data"));
     }
 
     /**
@@ -20,7 +21,7 @@ class ShiftGrupController extends Controller
      */
     public function create()
     {
-        //
+        return view("shift.grup.add");
     }
 
     /**

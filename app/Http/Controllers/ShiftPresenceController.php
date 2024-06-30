@@ -12,7 +12,8 @@ class ShiftPresenceController extends Controller
      */
     public function index()
     {
-        //
+        $data = ShiftPresence::all();
+        return view("shift.absen.index", compact("data"));
     }
 
     /**
@@ -20,7 +21,7 @@ class ShiftPresenceController extends Controller
      */
     public function create()
     {
-        //
+        return view("shift.absen.add");
     }
 
     /**

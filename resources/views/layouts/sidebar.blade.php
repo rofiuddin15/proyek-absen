@@ -1,6 +1,6 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-      <a href="index.html" class="app-brand-link">
+      <a href="{{ route('dashboard')}}" class="app-brand-link">
         <span class="app-brand-logo demo">
           <svg
             width="25"
@@ -68,8 +68,8 @@
 
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
-      <li class="menu-item active">
-        <a href="index.html" class="menu-link">
+      <li class="menu-item {{ Request::is('/') ? 'active' : ''}}">
+        <a href="{{ route('dashboard') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-home-circle"></i>
           <div data-i18n="Analytics">Dashboard</div>
         </a>
@@ -80,47 +80,56 @@
       </li>
 
       <!-- Layouts -->
-      <li class="menu-item">
+      <li class="menu-item {{ Request::is('karyawan*','presensi-rekap*', 'laporan-kinerja*', 'shift-absen*', 'shift-grup*') ? 'open' : ''}}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-briefcase"></i>
           <div data-i18n="Layouts">Karyawan</div>
         </a>
 
         <ul class="menu-sub">
-          <li class="menu-item">
-            <a href="layouts-without-menu.html" class="menu-link">
+          <li class="menu-item {{ Request::is('karyawan*') ? 'active' : ''}}">
+            <a href="{{ route('karyawan.index')}}" class="menu-link">
               <div data-i18n="Without menu">Karyawan</div>
             </a>
           </li>
-          <li class="menu-item">
-            <a href="layouts-without-navbar.html" class="menu-link">
+          <li class="menu-item {{ Request::is('presensi-rekap*') ? 'active' : ''}}">
+            <a href="{{ route('presensi-rekap.index') }}" class="menu-link">
               <div data-i18n="Without navbar">Rekap Presensi</div>
             </a>
           </li>
-          <li class="menu-item">
-            <a href="layouts-container.html" class="menu-link">
+          <li class="menu-item {{ Request::is('laporan-kinerja*') ? 'active' : ''}}">
+            <a href="{{ route('laporan-kinerja.index')}}" class="menu-link">
               <div data-i18n="Container">Laporan Kinerja</div>
             </a>
           </li>
-          
+          <li class="menu-item {{ Request::is('shift-absen*') ? 'active' : ''}}">
+            <a href="{{ route('shift-absen.index')}}" class="menu-link">
+              <div data-i18n="Container">Shift</div>
+            </a>
+          </li>
+          <li class="menu-item {{ Request::is('shift-grup*') ? 'active' : ''}}">
+            <a href="{{ route('shift-grup.index')}}" class="menu-link">
+              <div data-i18n="Container">Grup Shift</div>
+            </a>
+          </li>
         </ul>
       </li>
 
       <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Pengguna</span>
       </li>
-      <li class="menu-item">
+      <li class="menu-item {{ Request::is('karyawan*','role*') ? 'open' : ''}}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-user"></i>
           <div data-i18n="Account Settings">Pengaturan</div>
         </a>
         <ul class="menu-sub">
-          <li class="menu-item">
+          <li class="menu-item {{ Request::is('karyawan*') ? 'active' : ''}}">
             <a href="{{ route('karyawan.index') }}" class="menu-link">
               <div data-i18n="Account">Pengguna</div>
             </a>
           </li>
-          <li class="menu-item">
+          <li class="menu-item {{ Request::is('role*') ? 'active' : ''}}">
             <a href="{{ route('role.index') }}" class="menu-link">
               <div data-i18n="Notifications">Tugas</div>
             </a>

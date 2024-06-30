@@ -12,7 +12,8 @@ class PerformanceReportController extends Controller
      */
     public function index()
     {
-        //
+        $data = PerformanceReport::orderBy("created_at","desc")->paginate(10);
+        return view("laporan.kinerja.index", compact("data"));
     }
 
     /**

@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserProfile;
+use App\Models\Presence;
 use Illuminate\Http\Request;
 
-class UserProfileController extends Controller
+class PresenceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = UserProfile::all();
-        return view("karyawan.index", compact("data"));
+        //
     }
 
     /**
@@ -35,7 +34,7 @@ class UserProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserProfile $userProfile)
+    public function show(Presence $presence)
     {
         //
     }
@@ -43,7 +42,7 @@ class UserProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UserProfile $userProfile)
+    public function edit(Presence $presence)
     {
         //
     }
@@ -51,7 +50,7 @@ class UserProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserProfile $userProfile)
+    public function update(Request $request, Presence $presence)
     {
         //
     }
@@ -59,7 +58,7 @@ class UserProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserProfile $userProfile)
+    public function destroy(Presence $presence)
     {
         //
     }

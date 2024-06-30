@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Presen;
 use Illuminate\Http\Request;
 
-class PresenController extends Controller
+class PresenceReportController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view("laporan.presensi.index");
     }
 
     /**
@@ -34,7 +33,7 @@ class PresenController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Presen $presen)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +41,7 @@ class PresenController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Presen $presen)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +49,7 @@ class PresenController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Presen $presen)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +57,7 @@ class PresenController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Presen $presen)
+    public function destroy(string $id)
     {
         //
     }
