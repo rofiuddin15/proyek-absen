@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ShiftGrup;
+use App\Models\ShiftPresence;
 use Illuminate\Http\Request;
 
 class ShiftGrupController extends Controller
@@ -21,7 +22,8 @@ class ShiftGrupController extends Controller
      */
     public function create()
     {
-        return view("shift.grup.add");
+        $data = ShiftPresence::with('shift_presence')->get();
+        return view("shift.grup.add", compact("data"));
     }
 
     /**
@@ -29,7 +31,16 @@ class ShiftGrupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $store = ShiftGrup::create([
+            'name' => $request->name,
+            'shift_presence_id' => $request->shift_id,
+        ]);
+
+        if ($store) {
+            return redirect()->route('shift-grup.index')->with("message", "berhasil");
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**

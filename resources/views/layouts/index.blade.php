@@ -22,6 +22,8 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('sneat/assets/img/favicon/favicon.ico')}}" />
 
     @include('layouts.css')
+
+    @stack('css')
     
   </head>
 
@@ -67,6 +69,8 @@
     <!-- / Layout wrapper -->
 
     @include('layouts.js')
+
+    @stack('js')
 
   </body>
 </html>

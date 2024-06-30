@@ -10,7 +10,7 @@
           
           <div class="dt-action-buttons text-end pt-1 pt-md-0">
             <div class="dt-buttons btn-group flex-wrap">              
-              <button class="btn btn-sm btn-secondary create-new btn-primary" tabindex="0" aria-controls="DataTables_Table_0" type="button">
+              <button onclick="window.location='{{ route('role.create') }}'" class="btn btn-sm btn-secondary create-new btn-primary" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                 <span><i class="bx bx-plus me-sm-1"></i>
                   <span class="d-none d-sm-inline-block">Data Baru</span>
                 </span>

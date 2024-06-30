@@ -29,7 +29,18 @@ class ShiftPresenceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $store = ShiftPresence::create([
+            "name" => $request->name,
+            "start_time" => $request->start_time,
+            "end_time" => $request->end_time,
+            "range_open_presence" => $request->range_open,
+        ]);
+
+        if ($store) {
+            return redirect()->route("shift-absen.index")->with("success","berhasil input data");
+        } else {
+            return redirect()->back()->with("error","terjadi kesalahan");
+        }
     }
 
     /**
