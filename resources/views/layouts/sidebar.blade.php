@@ -116,17 +116,17 @@
         </a>
         <ul class="menu-sub">
           <li class="menu-item">
-            <a href="pages-account-settings-account.html" class="menu-link">
+            <a href="{{ route('karyawan.index') }}" class="menu-link">
               <div data-i18n="Account">Pengguna</div>
             </a>
           </li>
           <li class="menu-item">
-            <a href="pages-account-settings-notifications.html" class="menu-link">
+            <a href="{{ route('role.index') }}" class="menu-link">
               <div data-i18n="Notifications">Tugas</div>
             </a>
           </li>
           <li class="menu-item">
-            <a href="pages-account-settings-connections.html" class="menu-link">
+            <a href="{{ route('permission.index') }}" class="menu-link">
               <div data-i18n="Connections">Hak Akses</div>
             </a>
           </li>
