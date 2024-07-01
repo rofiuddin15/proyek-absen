@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\PermissionsDataTable;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(PermissionsDataTable $dataTable)
     {
-        //
+        return $dataTable->render('permission.index');
     }
 
     /**

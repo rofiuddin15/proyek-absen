@@ -1,7 +1,7 @@
 @extends('layouts.index')
 
 @section('content')
-<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-2 mb-2">
         <span class="text-muted fw-light">Karyawan /</span> Data Grup Shift</h4>
         <!-- Basic Bootstrap Table -->
@@ -54,3 +54,11 @@
     <!--/ Basic Bootstrap Table -->
   </div>
 @endsection
+
+@push('js')
+<!-- Page JS -->
+<script src="{{ asset('sneat/assets/js/ui-modals.js') }}"></script>
+<script>
+  
+</script>
+@endpush
