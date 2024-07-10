@@ -106,10 +106,7 @@
           </form>
 
           <p class="text-center">
-            <span>New on our platform?</span>
-            <a href="auth-register-basic.html">
-              <span>Create an account</span>
-            </a>
+            <span>Ambil foto sebelum check in.</span>
           </p>
         </div>
       </div>
