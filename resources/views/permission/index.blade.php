@@ -1,6 +1,10 @@
 @extends('layouts.index')
 
-@section('name')
+@push('css')
+<link rel="stylesheet" href="{{ asset('sneat/assets/css/datatables.css')}}" />
+@endpush
+
+@section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
   <h4 class="fw-bold py-2 mb-2">
       <span class="text-muted fw-light">Permission /</span> Data Grup Shift</h4>
@@ -17,14 +21,20 @@
         </div>
       </div>
     </div>
-    <div class="table-responsive text-nowrap">
-      {{ $dataTable->table() }}
+    <div class="card-body">
+      <div class="table-responsive text-nowrap">
+        <table class="table table-stripped">
+          {{ $dataTable->table() }}
+  
+        </table>
+      </div>
     </div>
   </div>
   <!--/ Basic Bootstrap Table -->
 </div>  
 @endsection
 
-@push('scripts')
+@push('js')
+  <script src="{{ asset('/sneat/assets/js/datatables.js')}}"></script>
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush

@@ -2,17 +2,17 @@
 
 namespace App\DataTables;
 
+use App\Models\UserProfile;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\EloquentDataTable;
-use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
-class PermissionsDataTable extends DataTable
+class UserProfileDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,18 +22,25 @@ class PermissionsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            // ->addColumn('action', 'permissions.action')
-            ->setRowId('id')
-            ->addColumn('nama', function(Permission $permission){
-                return $permission->name;
-            });
+            ->addColumn('action', 'userprofile.action')
+            ->addColumn('nama_depan', function(UserProfile $user){
+                return $user->first_name;
+            })
+            ->addColumn('nama_belakang', function(UserProfile $user){
+                return $user->last_name;
+            })
+            ->addColumn('jenis_kelamin', function(UserProfile $user){
+                return $user->gender == 'L' ? 'Laki-Laki' : 'Perempuan';
+            })
+            ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Permission $model): QueryBuilder
+    public function query(UserProfile $model): QueryBuilder
     {
+        // $model = UserProfile::with('user')->get();
         return $model->newQuery();
     }
 
@@ -43,10 +50,10 @@ class PermissionsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('permissions-table')
+                    ->setTableId('userprofile-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    // ->dom('Bfrtip')
+                    //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
@@ -65,15 +72,16 @@ class PermissionsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            // Column::computed('action')
-            //       ->exportable(false)
-            //       ->printable(false)
-            //       ->width(60)
-            //       ->addClass('text-center'),
             Column::make('id'),
-            Column::make('nama'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('nama_depan'),
+            Column::make('nama_belakang'),
+            Column::make('jenis_kelamin'),
+            Column::make('phone'),
+            Column::computed('action')
+                  ->exportable(false)
+                  ->printable(false)
+                  ->width(60)
+                  ->addClass('text-center'),
         ];
     }
 
@@ -82,6 +90,6 @@ class PermissionsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Permissions_' . date('YmdHis');
+        return 'UserProfile_' . date('YmdHis');
     }
 }

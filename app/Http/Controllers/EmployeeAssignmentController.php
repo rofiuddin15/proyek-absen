@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Presence;
+use App\Models\EmployeeAssignment;
 use Illuminate\Http\Request;
 
-class PresenceController extends Controller
+class EmployeeAssignmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        
+        //
     }
 
     /**
@@ -20,7 +20,7 @@ class PresenceController extends Controller
      */
     public function create()
     {
-        return view('presensi.index');
+        //
     }
 
     /**
@@ -34,7 +34,7 @@ class PresenceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Presence $presence)
+    public function show(EmployeeAssignment $employeeAssignment)
     {
         //
     }
@@ -42,7 +42,7 @@ class PresenceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Presence $presence)
+    public function edit(EmployeeAssignment $employeeAssignment)
     {
         //
     }
@@ -50,7 +50,7 @@ class PresenceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Presence $presence)
+    public function update(Request $request, EmployeeAssignment $employeeAssignment)
     {
         //
     }
@@ -58,7 +58,7 @@ class PresenceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Presence $presence)
+    public function destroy(EmployeeAssignment $employeeAssignment)
     {
         //
     }

@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\DataTables\UserProfileDataTable;
 
 class UserProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(UserProfileDataTable $dataTable)
     {
-        $data = UserProfile::all();
-        return view("karyawan.index", compact("data"));
+        // $data = UserProfile::with('user')->get();
+        return $dataTable->render('karyawan.index');
     }
 
     /**
@@ -21,7 +24,7 @@ class UserProfileController extends Controller
      */
     public function create()
     {
-        //
+        return view('karyawan.add');
     }
 
     /**
@@ -29,7 +32,30 @@ class UserProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $store = User::create([
+            'name' => $request->first_name,
+            'email' => $request->email,
+            'password' => Hash::make('12345678'),
+        ]);
+
+        if ($store) {
+            $makeUserProfile = UserProfile::create([
+                'user_id' => $store->id,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'gender' => $request->gender,
+                'phone' => $request->phone,
+                'address' => $request->address,
+            ]);
+
+            if ($makeUserProfile) {
+                return redirect()->route('karyawan.index');
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**

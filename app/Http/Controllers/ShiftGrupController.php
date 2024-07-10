@@ -22,7 +22,7 @@ class ShiftGrupController extends Controller
      */
     public function create()
     {
-        $data = ShiftPresence::with('shift_presence')->get();
+        $data = ShiftPresence::get();
         return view("shift.grup.add", compact("data"));
     }
 
