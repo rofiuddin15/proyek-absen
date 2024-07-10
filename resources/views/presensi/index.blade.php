@@ -82,26 +82,39 @@
             <div class="mb-3">
 
             </div>
-            <div class="mb-3 text-center">
+            <div class="mb-3 d-md-flex flex-md-row justify-content-center">
               <button type="button" class="btn btn-icon btn-primary">
                 <span class="tf-icons bx bxs-camera-plus"></span>
               </button>
+              <p class="d-flex align-self-center ps-md-2">Ambil Gambar</p>
             </div>
             <div class="mb-3">
-              <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
+              <a href="ww" class="btn card icon-card cursor-pointer text-center mb-4 mx-2">
                 <div class="card-body">
                   <i class="bx bx-log-in-circle mb-2"></i>
                   <p class="icon-name text-capitalize text-truncate mb-0">CHECK IN</p>
                 </div>
-              </div>
+              </a>
+              {{-- <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
+                <div class="card-body">
+                  <i class="bx bx-log-in-circle mb-2"></i>
+                  <p class="icon-name text-capitalize text-truncate mb-0">CHECK IN</p>
+                </div>
+              </div> --}}
             </div>
             <div class="mb-3">
-              <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
+              <a href="ww" class="btn card icon-card cursor-pointer text-center mb-4 mx-2">
                 <div class="card-body">
                   <i class="bx bx-log-out-circle mb-2"></i>
                   <p class="icon-name text-capitalize text-truncate mb-0">CHECK OUT</p>
                 </div>
-              </div>
+              </a>
+              {{-- <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
+                <div class="card-body">
+                  <i class="bx bx-log-out-circle mb-2"></i>
+                  <p class="icon-name text-capitalize text-truncate mb-0">CHECK OUT</p>
+                </div>
+              </div> --}}
             </div>
           </form>
 
