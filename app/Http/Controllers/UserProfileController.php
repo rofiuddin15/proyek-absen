@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ShiftGrup;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\DataTables\UserProfileDataTable;
+use Spatie\Permission\Models\Role;
 
 class UserProfileController extends Controller
 {
@@ -24,7 +26,9 @@ class UserProfileController extends Controller
      */
     public function create()
     {
-        return view('karyawan.add');
+        $role = Role::all();
+        $shift = ShiftGrup::all();
+        return view('karyawan.add', compact(['role', 'shift']));
     }
 
     /**
