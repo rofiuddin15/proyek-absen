@@ -233,10 +233,11 @@
   });
 
   snapRetake.addEventListener('click', function(){
-    snapRetake.hidden = true;
     video.style.display = "block";
     fileDisplay.style.display = 'none';
     snap.style.display = 'block';
+    snapRetake.hidden = true;
+    snapOke.hidden = true;
   })
   snapOke.addEventListener('click', function(){
     snapRetake.hidden = true;
@@ -290,6 +291,7 @@
     video.style.display = "block";
     fileDisplay.style.display = 'none';
     snap2.style.display = 'block';
+    snapOke2.hidden = true;
   })
   snapOke2.addEventListener('click', function(){
     snapRetake2.hidden = true;
