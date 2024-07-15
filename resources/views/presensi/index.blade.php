@@ -80,28 +80,42 @@
 
           <form id="formAuthentication" class="mb-3" action="{{ route('presensi.store')}}" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-
+              <input type="file" id="imageSelected" class="form-control" hidden>
+              <input type="file" id="imageSelected2" class="form-control" hidden>
             </div>
-            <div class="mb-3 text-center">
-              <button type="button" class="btn btn-icon btn-primary">
+            <div class="mb-3 text-center d-md-flex flex-md-row justify-content-center" id="takeGambar" >
+              <button type="button" class="btn btn-icon btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <span class="tf-icons bx bxs-camera-plus"></span>
               </button>
+              <p class="text-center ps-md-2">Ambil Gambar</p>
             </div>
             <div class="mb-3">
-              <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
+              <a href="ww" id="checkInOut" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
                 <div class="card-body">
                   <i class="bx bx-log-in-circle mb-2"></i>
                   <p class="icon-name text-capitalize text-truncate mb-0">CHECK IN</p>
                 </div>
-              </div>
+              </a>
+              {{-- <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
+                <div class="card-body">
+                  <i class="bx bx-log-in-circle mb-2"></i>
+                  <p class="icon-name text-capitalize text-truncate mb-0">CHECK IN</p>
+                </div>
+              </div> --}}
             </div>
             <div class="mb-3">
-              <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
+              <a href="ww" id="checkInOut" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
                 <div class="card-body">
                   <i class="bx bx-log-out-circle mb-2"></i>
                   <p class="icon-name text-capitalize text-truncate mb-0">CHECK OUT</p>
                 </div>
-              </div>
+              </a>
+              {{-- <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
+                <div class="card-body">
+                  <i class="bx bx-log-out-circle mb-2"></i>
+                  <p class="icon-name text-capitalize text-truncate mb-0">CHECK OUT</p>
+                </div>
+              </div> --}}
             </div>
           </form>
 
@@ -112,9 +126,185 @@
       </div>
     </div>
   </div>
+  {{-- MODAL --}}
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ambil Gambar</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="camera">
+            <img id="fileDisplay" class="img-fluid"/>
+            <video id="video" class="img-fluid" autoplay></video>
+            <button class="btn btn-primary form-control mt-2" id="snap">
+              <span class="tf-icons bx bxs-camera-plus"></span> <span id="snapText">Ambil Foto</span>
+            </button>
+            <button class="btn btn-primary form-control mt-2" id="snapRetake" hidden>
+              <span class="tf-icons bx bxs-camera-plus"></span> <span id="snapText">Ambil Ulang</span>
+            </button>
+            <button class="btn btn-warning form-control mt-2" id="snapOke" hidden>
+              <span class="tf-icons bx bxs-check-square"></span> <span id="snapText">Lanjutkan</span>
+            </button>
+            <button class="btn btn-primary form-control mt-2" id="snap2" hidden>
+              <span class="tf-icons bx bxs-camera-plus"></span> <span id="snapText">Ambil Foto</span>
+            </button>
+            <button class="btn btn-primary form-control mt-2" id="snapRetake2" hidden>
+              <span class="tf-icons bx bxs-camera-plus"></span> <span id="snapText">Ambil Ulang</span>
+            </button>
+            <button class="btn btn-success form-control mt-2" id="snapOke2" hidden>
+              <span class="tf-icons bx bxs-check-square"></span> <span id="snapText">Oke</span>
+            </button>
+            <canvas id="canvas" style="display:none;"></canvas>
+        </div>
+        </div>
+        <div class="modal-footer">
+          {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+        </div>
+      </div>
+    </div>
+  </div>
+  {{-- End of Modal --}}
 </div>    
 @endsection
 
 @push('js')
-    
+<script>
+  // Access the camera
+  const video = document.getElementById('video');
+
+  // Check if the browser supports getUserMedia
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+          video.srcObject = stream;
+          video.play();
+      });
+  }
+
+  // Take a picture when the button is clicked
+  const canvas = document.getElementById('canvas');
+  const snap = document.getElementById('snap');
+  const snapRetake = document.getElementById('snapRetake');
+  const snapOke = document.getElementById('snapOke');
+  const snap2 = document.getElementById('snap2');
+  const takeGambar = document.getElementById('takeGambar');
+
+  snap.addEventListener('click', function() {
+      const context = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Convert the image to a data URL (base64 encoded string)
+      const imageDataURL = canvas.toDataURL('image/png');
+      console.log(imageDataURL);
+      fetch(imageDataURL)
+            .then(res => res.blob())
+            .then(blob => {
+                // Create a new file
+                const file = new File([blob], 'evidence1.png', { type: 'image/png' });
+
+                // Display the file name (simulate the file input display)
+                fileDisplay.src = URL.createObjectURL(file);
+                fileDisplay.style.display = 'block';
+
+                // Display the file name (simulate the file input display)
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                imageSelected.files = dataTransfer.files;
+
+
+                // Create a temporary link element
+                const link = document.createElement('a');
+
+                // Append the link to the body (not visible)
+                document.body.appendChild(link);
+
+                // Clean up
+                document.body.removeChild(link);
+            });
+      video.style.display = 'none';
+      snap.style.display = 'none';
+      snapRetake.hidden = false;
+      snapOke.hidden = false;
+
+  });
+
+  snapRetake.addEventListener('click', function(){
+    video.style.display = "block";
+    fileDisplay.style.display = 'none';
+    snap.style.display = 'block';
+    snapRetake.hidden = true;
+    snapOke.hidden = true;
+  })
+  snapOke.addEventListener('click', function(){
+    snapRetake.hidden = true;
+    video.style.display = "block";
+    fileDisplay.style.display = 'none';
+    snap2.hidden = false;
+    snapOke.hidden = true;
+    exampleModalLabel.textContent = "Ambil Gambar 2"
+  })
+  snap2.addEventListener('click', function() {
+    const context = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Convert the image to a data URL (base64 encoded string)
+      const imageDataURL = canvas.toDataURL('image/png');
+      console.log(imageDataURL);
+      fetch(imageDataURL)
+            .then(res => res.blob())
+            .then(blob => {
+                // Create a new file
+                const file = new File([blob], 'evidence2.png', { type: 'image/png' });
+
+                // Display the file name (simulate the file input display)
+                fileDisplay.src = URL.createObjectURL(file);
+                fileDisplay.style.display = 'block';
+
+                // Display the file name (simulate the file input display)
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                imageSelected2.files = dataTransfer.files;
+
+
+                // Create a temporary link element
+                const link = document.createElement('a');
+
+                // Append the link to the body (not visible)
+                document.body.appendChild(link);
+
+                // Clean up
+                document.body.removeChild(link);
+            });
+      video.style.display = 'none';
+      snap2.style.display = 'none';
+      snapRetake2.hidden = false;
+      snapOke2.hidden = false;
+  })
+  snapRetake2.addEventListener('click', function(){
+    snapRetake2.hidden = true;
+    video.style.display = "block";
+    fileDisplay.style.display = 'none';
+    snap2.style.display = 'block';
+    snapOke2.hidden = true;
+  })
+  snapOke2.addEventListener('click', function(){
+    snapRetake2.hidden = true;
+    fileDisplay.style.display = 'none';
+    snap2.hidden = false;
+    snapOke2.hidden = true;
+    $('#exampleModal').modal('hide');
+    takeGambar.style.visibility = 'hidden';
+    const elements = document.querySelectorAll('#checkInOut');
+    elements.forEach(element => {
+        element.classList.remove('disabled');
+        element.classList.remove('bg-secondary');
+    });
+  })
+</script>
 @endpush
