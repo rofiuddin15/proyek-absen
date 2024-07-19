@@ -60,6 +60,26 @@
                 <input type="text" name="password" class="form-control" id="password" placeholder="Tulis password" />
               </div>
             </div>
+            <div class="mb-3 row">
+              <div class="col-md">
+                <label class="form-label" for="shift">Shift</label>
+                <select class="form-select select2" name="shift" id="shift" data-placeholder="Pilih salah satu">
+                  <option></option>
+                  @foreach ($shift as $item)
+                  <option value="">{{ $item->name }}</option>    
+                  @endforeach
+                </select>
+              </div>
+              <div class="col-md">
+                <label class="form-label" for="role">Tugas</label>
+                <select class="form-select select2" name="role" id="role" data-placeholder="Pilih salah satu">
+                  <option></option>
+                  @foreach ($role as $item)
+                  <option value="">{{ $item->name }}</option>    
+                  @endforeach
+                </select>
+              </div>
+            </div>
             <div class="text-end">
               <button type="submit" class="btn float-left btn-primary">Simpan</button>
             </div>

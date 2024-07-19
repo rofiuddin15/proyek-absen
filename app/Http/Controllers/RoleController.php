@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -22,7 +23,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view("role.add");
+        $data = Permission::all();
+        return view("role.add", compact('data'));
     }
 
     /**
@@ -30,13 +32,18 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->permission);
         $add = Role::create([
             "name"=> $request->name,
             "guard_name" => "web",
         ]);
 
         if ($add) {
-            return redirect()->route("role.index")->with("success","berhasil tambah data");
+            $permit = $add->givePermissionTo([$request->premission]);
+            if ($permit) {
+                return redirect()->route("role.index")->with("success","berhasil tambah data");
+
+            }
         } else {
             return redirect()->back()->with("error","gagal simpan data");
         }

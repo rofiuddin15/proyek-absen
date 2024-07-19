@@ -2,6 +2,7 @@
 
 @push('css')
 <link rel="stylesheet" href="{{ asset('sneat/assets/css/select2-bootstrap-5-theme.min.css')}}" />       
+<link rel="stylesheet" href="{{ asset('sneat/assets/css/select2.min.css')}}" />       
 @endpush
 
 @section('content')
@@ -24,29 +25,13 @@
                 <input type="text" name="name" class="form-control" id="basic-default-fullname" placeholder="Admin, Staf atau lainnya.." />
               </div>
               <div class="mb-3">
-                <label class="form-label" for="multiple-select-field">Hak Akses</label>
-                <select class="form-select select2-hidden-accessible" id="multiple-select-field" data-placeholder="Choose anything" multiple>
-                  <option>Christmas Island</option>
-                  <option>South Sudan</option>
-                  <option>Jamaica</option>
-                  <option>Kenya</option>
-                  <option>French Guiana</option>
-                  <option>Mayotta</option>
-                  <option>Liechtenstein</option>
-                  <option>Denmark</option>
-                  <option>Eritrea</option>
-                  <option>Gibraltar</option>
-                  <option>Saint Helena, Ascension and Tristan da Cunha</option>
-                  <option>Haiti</option>
-                  <option>Namibia</option>
-                  <option>South Georgia and the South Sandwich Islands</option>
-                  <option>Vietnam</option>
-                  <option>Yemen</option>
-                  <option>Philippines</option>
-                  <option>Benin</option>
-                  <option>Czech Republic</option>
-                  <option>Russia</option>
-                </select>
+                <label class="form-label" for="multiple-select">Hak Akses</label>
+                <select name="permission[]" class="form-select" id="multiple-select" data-placeholder="Pilih beberapa hak akses" multiple>
+                  <option></option>
+                  @foreach ($data as $item)
+                  <option value="{{ $item->name }}">{{ $item->name }}</option>    
+                  @endforeach
+              </select>
               </div>
               <button type="submit" class="btn btn-primary">Simpan</button>
             </form>
@@ -60,11 +45,12 @@
 @push('js')
 <script src="{{ asset('sneat/assets/js/select2.min.js')}}"></script>       
 <script>
-  $( '#multiple-select-field' ).select2( {
+$( '#multiple-select' ).select2( {
     theme: "bootstrap-5",
-    width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+    width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : '100%',
     placeholder: $( this ).data( 'placeholder' ),
     closeOnSelect: false,
+    dropdownParent: $( '#multiple-select' ).parent(),
 } );
 </script>       
 @endpush
