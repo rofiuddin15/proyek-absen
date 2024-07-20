@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('presences', function (Blueprint $table) {
+        Schema::create('user_shifts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('lat')->nullable();
-            $table->string('lng')->nullable();
-            $table->time('checkin');
-            $table->time('checkout')->nullable();
+            $table->unsignedBigInteger('grup_shift_id');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('presences');
+        Schema::dropIfExists('user_shifts');
     }
 };
