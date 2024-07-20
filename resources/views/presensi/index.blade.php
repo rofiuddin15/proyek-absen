@@ -79,9 +79,17 @@
           </div> --}}
 
           <form id="formAuthentication" class="mb-3" action="{{ route('presensi.store')}}" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
+            <div class="mb-3 d-md-flex flex-md-row justify-content-between">
               <input type="file" id="imageSelected" class="form-control" hidden>
               <input type="file" id="imageSelected2" class="form-control" hidden>
+            </div>
+            <div class="row mb-3 d-none" id="allPic">
+              <div class="col-md-6">
+                <img src="{{asset('sneat/assets/img/backgrounds/no_image.png')}}" id="pic1" alt="" class="img-thumbnail rounded">
+              </div>
+              <div class="col-md-6">
+                <img src="{{asset('sneat/assets/img/backgrounds/no_image.png')}}" alt="" id="pic2" class="img-thumbnail rounded">
+              </div>
             </div>
             <div class="mb-3 text-center d-md-flex flex-md-row justify-content-center" id="takeGambar" >
               <button type="button" class="btn btn-icon btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -190,6 +198,8 @@
   const snapOke = document.getElementById('snapOke');
   const snap2 = document.getElementById('snap2');
   const takeGambar = document.getElementById('takeGambar');
+  const pic1 = document.getElementById('pic1');
+  const pic2 = document.getElementById('pic2');
 
   snap.addEventListener('click', function() {
       const context = canvas.getContext('2d');
@@ -214,6 +224,7 @@
                 const dataTransfer = new DataTransfer();
                 dataTransfer.items.add(file);
                 imageSelected.files = dataTransfer.files;
+                pic1.src = fileDisplay.src;
 
 
                 // Create a temporary link element
@@ -270,6 +281,7 @@
                 const dataTransfer = new DataTransfer();
                 dataTransfer.items.add(file);
                 imageSelected2.files = dataTransfer.files;
+                pic2.src = fileDisplay.src;
 
 
                 // Create a temporary link element
@@ -285,6 +297,7 @@
       snap2.style.display = 'none';
       snapRetake2.hidden = false;
       snapOke2.hidden = false;
+      allPic.classList.remove('d-none');
   })
   snapRetake2.addEventListener('click', function(){
     snapRetake2.hidden = true;
@@ -300,6 +313,7 @@
     snapOke2.hidden = true;
     $('#exampleModal').modal('hide');
     takeGambar.style.visibility = 'hidden';
+    takeGambar.classList.remove('mb-3');
     const elements = document.querySelectorAll('#checkInOut');
     elements.forEach(element => {
         element.classList.remove('disabled');
