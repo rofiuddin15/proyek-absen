@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PerformanceReport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PerformanceReportController extends Controller
 {
@@ -12,7 +13,8 @@ class PerformanceReportController extends Controller
      */
     public function index()
     {
-        $data = PerformanceReport::orderBy("created_at","desc")->paginate(10);
+        $data = PerformanceReport::with('file')->orderBy("created_at","desc")->paginate(10);
+        
         return view("laporan.kinerja.index", compact("data"));
     }
 
