@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\PerformanceReportsDataTable;
+use App\Http\Requests\PerformanceReportRequest;
 use App\Models\PerformanceReport;
+use App\Models\PerformanceReportFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PerformanceReportController extends Controller
@@ -32,9 +35,49 @@ class PerformanceReportController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PerformanceReportRequest $request)
     {
-        //
+        // getdata description & get file
+        $data = $request->validated();
+        // get auth user
+        // $authId = Auth::user()->id;
+        $authId = 1;
+
+        //buat performance report
+        $report = PerformanceReport::create([
+            'user_id' => $authId,
+            'report_description' => $data['report_description']
+        ]);
+
+        if ($report) {
+            // if ($data["report_file"]->hasFile('photo')) {
+            //     $path = $data["report_file"]->store('/images/1/smalls');
+            //     $product->image_url = $path;
+            // }
+            $fileName = "original";
+
+            if($request->hasFile('report_file')){
+                $fileName = time() . '.' . $request->file('report_file')->getClientOriginalExtension();
+                $request->file('report_file')->storeAs('public/kinerja', $fileName);
+            }
+
+            //buat performancereportfile berdasarkan id performance report
+            $reportFile = PerformanceReportFile::create([
+                'performance_report_id' => $report->id,
+                'photo' => $fileName
+            ]);
+
+            if ($reportFile) {
+                return redirect()->route('laporan-kinerja.index');
+            }else{
+                return redirect()->back()->withErrors(["message" => "Gagal Membuat Report File"]);
+            }
+        }else{
+            return redirect()->back()->withErrors(["message" => "Gagal Membuat Report"]);
+        }
+
+        
+
     }
 
     /**
@@ -64,8 +107,18 @@ class PerformanceReportController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PerformanceReport $performanceReport)
+    public function destroy(string $id)
     {
-        //
+        $data = PerformanceReport::findorfail($id);
+        if ($data) {
+            $file = PerformanceReportFile::where('performance_report_id', $data->id)->first();
+
+            if ($file) {
+                $file->delete();
+                $data->delete();
+
+                return redirect()->route('laporan-kinerja.index');
+            }
+        }
     }
 }

@@ -1,5 +1,9 @@
 @extends('layouts.index')
 
+@push('css')
+<link rel="stylesheet" href="{{ asset('sneat/assets/css/datatables.css')}}" />
+@endpush
+
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
 	<h4 class="fw-bold py-2 mb-2">

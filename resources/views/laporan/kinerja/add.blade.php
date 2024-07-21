@@ -17,7 +17,10 @@
           {{-- <small class="text-muted float-end">Default label</small> --}}
         </div>
         <div class="card-body">
-          <form method="POST" action="{{ route('karyawan.store')}}">
+          @if($errors->any())
+              {{ implode('', $errors->all('<div>:message</div>')) }}
+          @endif
+          <form method="POST" action="{{ route('laporan-kinerja.store')}}" enctype="multipart/form-data">
               <input type="hidden" name="_token" value="{{ csrf_token()}}" />
             <div class="mb-3">
               <label for="report_description" class="col-md-2 col-form-label">Deskripsi</label>

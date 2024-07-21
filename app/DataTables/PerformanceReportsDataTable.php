@@ -22,21 +22,41 @@ class PerformanceReportsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'performancereports.action')
-            ->addColumn('user_id', function(PerformanceReport $performanceReport){
-                return $performanceReport->user_id;
-            })
+            ->setRowId('id')
             ->addColumn('report_description', function(PerformanceReport $performanceReport){
                 return $performanceReport->report_description;
             })
-            ->setRowId('id');
+            ->addColumn('file', function(PerformanceReport $performanceReport){
+                $imageUrl = url('/storage/kinerja/' . $performanceReport->file->photo);
+                $img = '
+                <img src="'. $imageUrl . '" alt="Image broken" class="img-thumbnail rounded object-fit-fill">
+                ';
+                return $img;
+            })
+            ->addColumn('action', function(PerformanceReport $performanceReport) {
+
+                $deleteUrl =  route('laporan-kinerja.destroy', ['laporan_kinerja' => $performanceReport]);
+
+                $html = '<div class="btn-group btn-small" role="group" aria-label="First group">
+                            <button type="button" class="btn btn-sm btn-outline-warning">
+                            <i class="tf-icons bx bx-pencil"></i>
+                            </button>
+                            <a href="'. $deleteUrl .'" type="button" class="btn btn-sm btn-outline-danger">
+                                <i class="tf-icons bx bx-trash"></i>
+                            </a>
+                        </div>';
+                return $html;
+            })
+            ->rawColumns(['file', 'action']);
+
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(PerformanceReport $model): QueryBuilder
+    public function query(): QueryBuilder
     {
+        $model = PerformanceReport::with('file')->where('user_id', 1); //how to i get query from this
         return $model->newQuery();
     }
 
@@ -69,7 +89,6 @@ class PerformanceReportsDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('user_id'),
             Column::make('report_description'),
             Column::make('file'),
             Column::computed('action')
