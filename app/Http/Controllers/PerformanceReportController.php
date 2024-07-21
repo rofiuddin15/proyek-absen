@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\PerformanceReportsDataTable;
 use App\Models\PerformanceReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,11 +12,13 @@ class PerformanceReportController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(PerformanceReportsDataTable $dataTable)
     {
-        $data = PerformanceReport::with('file')->orderBy("created_at","desc")->paginate(10);
+        // $data = PerformanceReport::with('file')->orderBy("created_at","desc")->paginate(10);
         
-        return view("laporan.kinerja.index", compact("data"));
+        // return view("laporan.kinerja.index", compact("data"));
+        return $dataTable->render('laporan.kinerja.index');
+
     }
 
     /**
@@ -23,7 +26,7 @@ class PerformanceReportController extends Controller
      */
     public function create()
     {
-        //
+        return view('laporan.kinerja.add');
     }
 
     /**
