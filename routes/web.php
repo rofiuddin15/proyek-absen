@@ -22,5 +22,5 @@ Route::resource('shift-grup', ShiftGrupController::class);
 Route::resource('shift-absen', ShiftPresenceController::class);
 Route::resource('presensi', PresenceController::class);
 Route::resource('karyawan', UserProfileController::class);
-Route::resource('laporan-kinerja', PerformanceReportController::class);
+Route::resource('laporan-kinerja', PerformanceReportController::class)->only('index', 'destroy', 'create', 'store');
 Route::resource('presensi-rekap', PresenceReportController::class);

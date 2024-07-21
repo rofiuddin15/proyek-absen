@@ -9,6 +9,8 @@ use App\Models\PerformanceReportFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class PerformanceReportController extends Controller
 {
@@ -18,8 +20,6 @@ class PerformanceReportController extends Controller
     public function index(PerformanceReportsDataTable $dataTable)
     {
         // $data = PerformanceReport::with('file')->orderBy("created_at","desc")->paginate(10);
-        
-        // return view("laporan.kinerja.index", compact("data"));
         return $dataTable->render('laporan.kinerja.index');
 
     }
@@ -50,10 +50,6 @@ class PerformanceReportController extends Controller
         ]);
 
         if ($report) {
-            // if ($data["report_file"]->hasFile('photo')) {
-            //     $path = $data["report_file"]->store('/images/1/smalls');
-            //     $product->image_url = $path;
-            // }
             $fileName = "original";
 
             if($request->hasFile('report_file')){
@@ -114,6 +110,10 @@ class PerformanceReportController extends Controller
             $file = PerformanceReportFile::where('performance_report_id', $data->id)->first();
 
             if ($file) {
+                $path = storage_path().'/app/public/kinerja/'.$file->photo;
+                if(File::exists($path)){
+                    unlink($path);
+                }
                 $file->delete();
                 $data->delete();
 

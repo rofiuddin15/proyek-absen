@@ -11,7 +11,9 @@
 			<!-- Basic Bootstrap Table -->
 	<div class="card">
 		<div class="card-header flex-column flex-md-row">
-			
+			@if($errors->any())
+			{{ implode('', $errors->all('<div>:message</div>')) }}
+		@endif
 			<div class="dt-action-buttons text-end pt-1 pt-md-0">
 				<div class="dt-buttons btn-group flex-wrap">
 					<button class="btn btn-sm btn-secondary">

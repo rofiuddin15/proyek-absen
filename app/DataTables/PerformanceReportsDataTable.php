@@ -22,7 +22,10 @@ class PerformanceReportsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->setRowId('id')
+        ->addColumn('#', function() {
+            static $rowNumber = 0;
+            return ++$rowNumber;
+        })
             ->addColumn('report_description', function(PerformanceReport $performanceReport){
                 return $performanceReport->report_description;
             })
@@ -34,17 +37,16 @@ class PerformanceReportsDataTable extends DataTable
                 return $img;
             })
             ->addColumn('action', function(PerformanceReport $performanceReport) {
-
-                $deleteUrl =  route('laporan-kinerja.destroy', ['laporan_kinerja' => $performanceReport]);
-
-                $html = '<div class="btn-group btn-small" role="group" aria-label="First group">
-                            <button type="button" class="btn btn-sm btn-outline-warning">
-                            <i class="tf-icons bx bx-pencil"></i>
-                            </button>
-                            <a href="'. $deleteUrl .'" type="button" class="btn btn-sm btn-outline-danger">
-                                <i class="tf-icons bx bx-trash"></i>
-                            </a>
-                        </div>';
+                $deleteUrl =  route('laporan-kinerja.destroy', ['laporan_kinerja' => $performanceReport->id]);
+                $html = '
+                    <form action="'. $deleteUrl .'" method="POST">
+                        '. csrf_field() .'
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit"  class="btn btn-sm btn-outline-secondary">
+                            <i class="tf-icons bx bx-trash"></i>
+                        </button>
+                    </form>
+                ';
                 return $html;
             })
             ->rawColumns(['file', 'action']);
@@ -88,7 +90,7 @@ class PerformanceReportsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::make('#'),
             Column::make('report_description'),
             Column::make('file'),
             Column::computed('action')
