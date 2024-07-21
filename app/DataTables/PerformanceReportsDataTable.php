@@ -22,10 +22,10 @@ class PerformanceReportsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('#', function() {
-            static $rowNumber = 0;
-            return ++$rowNumber;
-        })
+            ->addColumn('#', function() {
+                static $rowNumber = 0;
+                return ++$rowNumber;
+            })
             ->addColumn('report_description', function(PerformanceReport $performanceReport){
                 return $performanceReport->report_description;
             })
@@ -58,7 +58,7 @@ class PerformanceReportsDataTable extends DataTable
      */
     public function query(): QueryBuilder
     {
-        $model = PerformanceReport::with('file')->where('user_id', 1); //how to i get query from this
+        $model = PerformanceReport::with('file')->where('user_id', 1)->orderBy("created_at","desc");
         return $model->newQuery();
     }
 
