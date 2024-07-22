@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -30,19 +31,18 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        // dd($request->permission);
+        $data = $request->validated();
         $add = Role::create([
-            "name"=> $request->name,
+            "name"=> $data["name"],
             "guard_name" => "web",
         ]);
 
         if ($add) {
-            $permit = $add->givePermissionTo([$request->premission]);
+            $permit = $add->givePermissionTo($data["permission"]);
             if ($permit) {
                 return redirect()->route("role.index")->with("success","berhasil tambah data");
-
             }
         } else {
             return redirect()->back()->with("error","gagal simpan data");
