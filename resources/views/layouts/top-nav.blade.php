@@ -59,7 +59,7 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">{{$profile->first_name . ' ' . $profile->last_name[0]}}</span>
+                            <span class="fw-semibold d-block">{{$profile->first_name . ' ' . $profile->last_name == null ? $profile->last_name[0] : ""}}</span>
                             <small class="text-muted">Admin</small>
                           </div>
                         </div>
