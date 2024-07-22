@@ -13,14 +13,20 @@ use App\Http\Controllers\EmployeePermitsController;
 use App\Http\Controllers\PerformanceReportController;
 use App\Http\Controllers\PresenceReportController;
 
-Route::get("/", [DashboardController::class,"index"])->name("dashboard");
-Route::resource('role', RoleController::class);
-Route::resource('permission', PermissionController::class);
-Route::resource('kategori-izin', CategoryPermitController::class);
-Route::resource('izin-karyawan', EmployeePermitsController::class);
-Route::resource('shift-grup', ShiftGrupController::class);
-Route::resource('shift-absen', ShiftPresenceController::class);
-Route::resource('presensi', PresenceController::class);
-Route::resource('karyawan', UserProfileController::class);
-Route::resource('laporan-kinerja', PerformanceReportController::class)->only('index', 'destroy', 'create', 'store');
-Route::resource('presensi-rekap', PresenceReportController::class);
+Route::get("/login", function(){
+    return view('auth.login');
+})->name('login');
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::get("/", [DashboardController::class,"index"])->name("dashboard");
+    Route::resource('role', RoleController::class);
+    Route::resource('permission', PermissionController::class);
+    Route::resource('kategori-izin', CategoryPermitController::class);
+    Route::resource('izin-karyawan', EmployeePermitsController::class);
+    Route::resource('shift-grup', ShiftGrupController::class);
+    Route::resource('shift-absen', ShiftPresenceController::class);
+    Route::resource('presensi', PresenceController::class);
+    Route::resource('karyawan', UserProfileController::class);
+    Route::resource('laporan-kinerja', PerformanceReportController::class)->only('index', 'destroy', 'create', 'store');
+    Route::resource('presensi-rekap', PresenceReportController::class);
+});
