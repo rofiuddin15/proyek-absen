@@ -1,7 +1,8 @@
 @extends('layouts.index')
 
 @push('css')
-    
+<link rel="stylesheet" href="{{ asset('sneat/assets/css/select2-bootstrap-5-theme.min.css')}}" />       
+<link rel="stylesheet" href="{{ asset('sneat/assets/css/select2.min.css')}}" />       
 @endpush
 
 @section('content')
@@ -68,15 +69,16 @@
                 <input type="text" name="password" class="form-control" id="password" value="12345678" placeholder="Tulis password" disabled/>
               </div>
             </div>
+           
             <div class="mb-3 row">
               <div class="col-md">
-                <label class="form-label" for="shift">Shift</label>
-                <select class="form-select select2" name="shift" id="shift" data-placeholder="Pilih salah satu" required>
-                  <option value="{{null}}">---Pilih Shift---</option>
+                <label class="form-label" for="multiple-select">Shift</label>
+                <select name="shift[]" class="form-select" id="multiple-select" data-placeholder="Pilih shift" multiple required>
+                  <option></option>
                   @foreach ($shift as $item)
-                  <option value="">{{ $item->name }}</option>    
+                  <option value="{{ $item->id }}">{{ $item->name }}</option>    
                   @endforeach
-                </select>
+              </select>
               </div>
               <div class="col-md">
                 <label class="form-label" for="role">Tugas</label>
@@ -100,5 +102,14 @@
 @endsection
 
 @push('js')
-    
+<script src="{{ asset('sneat/assets/js/select2.min.js')}}"></script>       
+<script>
+$( '#multiple-select' ).select2( {
+    theme: "bootstrap-5",
+    width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : '100%',
+    placeholder: $( this ).data( 'placeholder' ),
+    closeOnSelect: false,
+    dropdownParent: $( '#multiple-select' ).parent(),
+} );
+</script>       
 @endpush

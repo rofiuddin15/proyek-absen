@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\DataTables\UserProfileDataTable;
 use App\Http\Requests\UserStoreRequest;
+use App\Models\UserShift;
 use Spatie\Permission\Models\Role;
 
 class UserProfileController extends Controller
@@ -38,6 +39,7 @@ class UserProfileController extends Controller
     public function store(UserStoreRequest $request)
     {
         $data = $request->validated();
+        // return response()->json($data["shift"]);
         $store = User::create([
             'name' => $data["name"],
             'email' => $data["email"],
@@ -55,7 +57,16 @@ class UserProfileController extends Controller
             ]);
 
             if ($makeUserProfile) {
+                // Assign Role
                 $store->assignRole($data["tugas"]);
+
+                // Assign Shift
+                foreach ($data["shift"] as $item) {
+                    UserShift::create([
+                        'user_id' => auth()->user()->id,
+                        'grup_shift_id' => $item
+                    ]);
+                }
                 return redirect()->route('karyawan.index');
             } else {
                 return redirect()->back();
