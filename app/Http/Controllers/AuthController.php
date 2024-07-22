@@ -21,7 +21,7 @@ class AuthController extends Controller
                 // CHECK PASSWORD
                 if (Hash::check($data['password'], $find->password)) {
                     // LOGIN
-                    Auth::attempt($find);
+                    Auth::login($find);
                     return redirect()->route('dashboard');
                 }else{
                     return redirect()->back()->withInput()->withErrors(['message' => 'password anda salah']);

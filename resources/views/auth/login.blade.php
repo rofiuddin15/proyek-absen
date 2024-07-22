@@ -63,19 +63,23 @@
           </span> --}}
           <span class="app-brand-text demo text-body fw-bolder">LOGIN</span>
         </a>
+        @if($errors->any())
+            {{ implode('', $errors->all('<div>:message</div>')) }}
+        @endif
       </div>
       <!-- /Logo -->
       <h4 class="mb-2">Welcome to SIP! 👋</h4>
       <p class="mb-4">Please log-in to your account</p>
 
-      <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+      <form id="formAuthentication" class="mb-3" action="{{route('login.post')}}" method="POST">
+        @csrf
         <div class="mb-3">
           <label for="email" class="form-label">Email or No Karyawan</label>
           <input
             type="text"
             class="form-control"
             id="email"
-            name="email-username"
+            name="emailOrUsername"
             placeholder="Enter your email or username"
             autofocus
           />

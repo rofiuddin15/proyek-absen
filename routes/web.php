@@ -14,12 +14,14 @@ use App\Http\Controllers\EmployeePermitsController;
 use App\Http\Controllers\PerformanceReportController;
 use App\Http\Controllers\PresenceReportController;
 
-Route::get("/login", function(){
-    return view('auth.login');
-})->name('login');
 
-
-Route::post("/login", [AuthController::class, "login"])->name("login.post");
+Route::group(['middleware' => 'guest'], function(){
+    Route::get("/login", function(){
+        return view('auth.login');
+    })->name('login');
+    
+    Route::post("/login", [AuthController::class, "login"])->name("login.post");
+});
 
 Route::group(['middleware' => 'auth'], function(){
     Route::get("/", [DashboardController::class,"index"])->name("dashboard");
