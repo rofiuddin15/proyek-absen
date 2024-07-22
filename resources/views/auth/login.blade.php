@@ -63,11 +63,15 @@
           </span> --}}
           <span class="app-brand-text demo text-body fw-bolder">LOGIN</span>
         </a>
-        @if($errors->any())
-            {{ implode('', $errors->all('<div>:message</div>')) }}
-        @endif
       </div>
-      <!-- /Logo -->
+      @if ($errors->any())
+          <div class="">
+            @foreach ($errors->all() as $error)
+              <span class="badge bg-warning text-center">{{ $error }}</span>
+            @endforeach
+          </div>
+        @endif
+    <!-- /Logo -->
       <h4 class="mb-2">Welcome to SIP! 👋</h4>
       <p class="mb-4">Please log-in to your account</p>
 
@@ -82,6 +86,7 @@
             name="emailOrUsername"
             placeholder="Enter your email or username"
             autofocus
+            required
           />
         </div>
         <div class="mb-3 form-password-toggle">
@@ -99,6 +104,7 @@
               name="password"
               placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
               aria-describedby="password"
+              required
             />
             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
           </div>
