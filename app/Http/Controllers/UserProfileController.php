@@ -38,7 +38,6 @@ class UserProfileController extends Controller
     public function store(UserStoreRequest $request)
     {
         $data = $request->validated();
-
         $store = User::create([
             'name' => $data["name"],
             'email' => $data["email"],
@@ -56,6 +55,7 @@ class UserProfileController extends Controller
             ]);
 
             if ($makeUserProfile) {
+                $store->assignRole($data["tugas"]);
                 return redirect()->route('karyawan.index');
             } else {
                 return redirect()->back();

@@ -40,6 +40,7 @@
               <div class="col-md">
                   <label for="gender" class="col-md-2 col-form-label">Jenis Kelamin*</label>
                   <select name="gender" id="gender" class="form-control" required>
+                    <option value="{{null}}">---Pilih Jenis Kelamin---</option>
                     <option value="L">Laki-Laki</option>
                     <option value="P">Perempuan</option>
                   </select>
@@ -71,7 +72,7 @@
               <div class="col-md">
                 <label class="form-label" for="shift">Shift</label>
                 <select class="form-select select2" name="shift" id="shift" data-placeholder="Pilih salah satu" required>
-                  <option></option>
+                  <option value="{{null}}">---Pilih Shift---</option>
                   @foreach ($shift as $item)
                   <option value="">{{ $item->name }}</option>    
                   @endforeach
@@ -79,10 +80,10 @@
               </div>
               <div class="col-md">
                 <label class="form-label" for="role">Tugas</label>
-                <select class="form-select select2" name="role" id="role" data-placeholder="Pilih salah satu" required>
-                  <option></option>
+                <select class="form-select select2" name="tugas" id="role" data-placeholder="Pilih salah satu" required>
+                  <option value="{{null}}">---Pilih Tugas---</option>
                   @foreach ($role as $item)
-                  <option value="">{{ $item->name }}</option>    
+                  <option value="{{$item->name}}">{{ $item->name }}</option>    
                   @endforeach
                 </select>
               </div>

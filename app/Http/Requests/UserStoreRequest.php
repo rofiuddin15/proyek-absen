@@ -29,6 +29,8 @@ class UserStoreRequest extends FormRequest
             'gender' => 'required',
             'phone' => 'nullable',
             'address' => 'nullable',
+            'shift' => 'nullable',
+            'tugas' => 'required',
         ];
     }
 }
