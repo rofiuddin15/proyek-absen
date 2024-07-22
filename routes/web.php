@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PresenceController;
@@ -17,8 +18,12 @@ Route::get("/login", function(){
     return view('auth.login');
 })->name('login');
 
+
+Route::post("/login", [AuthController::class, "login"])->name("login.post");
+
 Route::group(['middleware' => 'auth'], function(){
     Route::get("/", [DashboardController::class,"index"])->name("dashboard");
+    Route::get("/logout", [AuthController::class, "logout"])->name("logout");
     Route::resource('role', RoleController::class);
     Route::resource('permission', PermissionController::class);
     Route::resource('kategori-izin', CategoryPermitController::class);
