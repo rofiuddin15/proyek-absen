@@ -1,3 +1,8 @@
+<?php 
+ $id = Auth::user()->id;
+ $profile = App\Models\UserProfile::where('user_id', $id)->first();
+?>
+
 <nav
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar"
@@ -54,7 +59,7 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
+                            <span class="fw-semibold d-block">{{$profile->first_name . ' ' . $profile->last_name[0]}}</span>
                             <small class="text-muted">Admin</small>
                           </div>
                         </div>
