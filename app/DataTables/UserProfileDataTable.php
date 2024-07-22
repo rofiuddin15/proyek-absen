@@ -22,7 +22,20 @@ class UserProfileDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'userprofile.action')
+            ->addColumn('action', function(UserProfile $user) {
+                $deleteUrl =  route('karyawan.destroy', ['karyawan' => $user->user_id]);
+                $html = '
+                    <form action="'. $deleteUrl .'" method="POST">
+                        '. csrf_field() .'
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit"  class="btn btn-sm btn-outline-secondary">
+                            <i class="tf-icons bx bx-trash"></i>
+                        </button>
+                    </form>
+                ';
+                return $html;
+            })
+            ->rawColumns([ 'action'])
             ->addColumn('nama_depan', function(UserProfile $user){
                 return $user->first_name;
             })

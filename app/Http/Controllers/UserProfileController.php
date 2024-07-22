@@ -103,8 +103,29 @@ class UserProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserProfile $userProfile)
+    public function destroy(string $id)
     {
-        //
+        // find user by id
+        $user = User::findorfail($id);
+        if ($user) {
+            // find profile by userid
+            $profile = UserProfile::where('user_id', $id)->first();
+            // remove role
+            $roles = $user->getRoleNames();
+            foreach ($roles as $item) {
+                $user->removeRole($item);
+            }
+            // get shifts by user_id
+            $shift = UserShift::where('user_id', $id)->get();
+            // foreach and remove shifts
+            foreach ($shift as $item) {
+                $item->delete();
+            }
+
+            $profile->delete();
+            $user->delete();
+
+            return redirect()->route('karyawan.index');
+        }
     }
 }
