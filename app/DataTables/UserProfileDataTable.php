@@ -24,13 +24,20 @@ class UserProfileDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function(UserProfile $user) {
                 $deleteUrl =  route('karyawan.destroy', ['karyawan' => $user->user_id]);
+                $editUrl =  route('karyawan.edit', ['karyawan' => $user->user_id]);
+
                 $html = '
                     <form action="'. $deleteUrl .'" method="POST">
                         '. csrf_field() .'
                         <input type="hidden" name="_method" value="DELETE">
+                        <div class="btn-group">
+                        <a href="' . $editUrl .'" class="btn btn-sm btn-outline-secondary">
+                            <i class="tf-icons bx bx-pencil"></i>
+                        </a>
                         <button type="submit"  class="btn btn-sm btn-outline-secondary">
                             <i class="tf-icons bx bx-trash"></i>
                         </button>
+                        </div>
                     </form>
                 ';
                 return $html;

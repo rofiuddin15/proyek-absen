@@ -39,7 +39,6 @@ class UserProfileController extends Controller
     public function store(UserStoreRequest $request)
     {
         $data = $request->validated();
-        // return response()->json($data["shift"]);
         $store = User::create([
             'name' => $data["name"],
             'email' => $data["email"],
@@ -63,7 +62,7 @@ class UserProfileController extends Controller
                 // Assign Shift
                 foreach ($data["shift"] as $item) {
                     UserShift::create([
-                        'user_id' => auth()->user()->id,
+                        'user_id' => $store->id,
                         'grup_shift_id' => $item
                     ]);
                 }
@@ -87,17 +86,64 @@ class UserProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UserProfile $userProfile)
+    public function edit(string $id)
     {
-        //
+        $profile = UserProfile::with('user')->where('user_id', $id)->first();
+        $role = Role::all();
+        $shift = ShiftGrup::all();
+        $user = User::findorfail($id);
+        $userRole = $user->getRoleNames();
+        $userShift = UserShift::where('user_id', $id)->pluck('grup_shift_id')->toArray();
+        return view('karyawan.edit', compact(['profile', 'role', 'shift', 'userRole', 'userShift']));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserProfile $userProfile)
+    public function update(UserStoreRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+
+        $profile = UserProfile::with('user')->where('user_id', $id)->first();
+
+        if ($profile) {
+            $dt = [
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'phone' => $data['phone'],
+                'address' => $data['address'],
+                'gender' => $data['gender'],
+            ];
+             // Update the related user fields
+             $profile->update($dt);
+             $profile->user->update([
+                 'name' => $data['name'],
+                 'email' => $data['email'],
+             ]);
+
+            //** USER SHIFT */
+            $currentShiftIds = UserShift::where('user_id', $id)->pluck('grup_shift_id')->toArray();
+    
+            $shiftsToAdd = array_diff($data['shift'], $currentShiftIds);
+    
+            $shiftsToRemove = array_diff($currentShiftIds, $data['shift']);
+    
+            // Add new shifts
+            foreach ($shiftsToAdd as $shiftId) {
+                UserShift::create([
+                    'user_id' => $id,
+                    'grup_shift_id' => $shiftId
+                ]);
+            }
+    
+            // Remove old shifts
+            UserShift::where('user_id', $id)
+                    ->whereIn('grup_shift_id', $shiftsToRemove)
+                    ->delete();
+            
+            return redirect()->route('karyawan.index');
+        }
+
     }
 
     /**
