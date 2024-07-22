@@ -8,6 +8,7 @@ use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\DataTables\UserProfileDataTable;
+use App\Http\Requests\UserStoreRequest;
 use Spatie\Permission\Models\Role;
 
 class UserProfileController extends Controller
@@ -34,22 +35,24 @@ class UserProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
+        $data = $request->validated();
+
         $store = User::create([
-            'name' => $request->first_name,
-            'email' => $request->email,
+            'name' => $data["name"],
+            'email' => $data["email"],
             'password' => Hash::make('12345678'),
         ]);
 
         if ($store) {
             $makeUserProfile = UserProfile::create([
                 'user_id' => $store->id,
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'gender' => $request->gender,
-                'phone' => $request->phone,
-                'address' => $request->address,
+                'first_name' => $data["first_name"],
+                'last_name' => $data["last_name"],
+                'gender' => $data["gender"],
+                'phone' => $data["phone"],
+                'address' => $data["address"],
             ]);
 
             if ($makeUserProfile) {
