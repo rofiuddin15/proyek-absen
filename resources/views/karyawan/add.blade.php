@@ -19,6 +19,13 @@
         <div class="card-body">
           <form method="POST" action="{{ route('karyawan.store')}}">
               <input type="hidden" name="_token" value="{{ csrf_token()}}" />
+              @if ($errors->any())
+              <div class="mb-3">
+                @foreach ($errors->all() as $error)
+                  <span class="badge bg-warning text-center">{{ $error }}</span>
+                @endforeach
+              </div>
+            @endif
             <div class="mb-3 row">
               <div class="col-md">
                 <label class="form-label" for="first_name">Nama Depan*</label>
@@ -39,7 +46,7 @@
               </div>
               <div class="col-md">
                   <label for="phone" class="col-md-4 col-form-label">Nomer Telepon</label>
-                  <input class="form-control" name="phone" type="text" id="phone" required/>
+                  <input class="form-control" name="phone" type="text" id="phone"/>
               </div>
             </div>
             <div class="mb-3">
@@ -53,7 +60,7 @@
             <div class="mb-3 row">
               <div class="col-md">
                 <label class="form-label" for="username">No Pegawai*</label>
-                <input type="text" name="username" class="form-control" id="username" placeholder="Tulis no pegawai" required/>
+                <input type="text" name="name" class="form-control" id="username" placeholder="Tulis no pegawai" required/>
               </div>
               <div class="col-md">
                 <label class="form-label" for="password">Kata Kunci (password)</label>
@@ -63,7 +70,7 @@
             <div class="mb-3 row">
               <div class="col-md">
                 <label class="form-label" for="shift">Shift</label>
-                <select class="form-select select2" name="shift" id="shift" data-placeholder="Pilih salah satu">
+                <select class="form-select select2" name="shift" id="shift" data-placeholder="Pilih salah satu" required>
                   <option></option>
                   @foreach ($shift as $item)
                   <option value="">{{ $item->name }}</option>    
@@ -72,7 +79,7 @@
               </div>
               <div class="col-md">
                 <label class="form-label" for="role">Tugas</label>
-                <select class="form-select select2" name="role" id="role" data-placeholder="Pilih salah satu">
+                <select class="form-select select2" name="role" id="role" data-placeholder="Pilih salah satu" required>
                   <option></option>
                   @foreach ($role as $item)
                   <option value="">{{ $item->name }}</option>    
