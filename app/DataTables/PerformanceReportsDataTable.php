@@ -58,7 +58,8 @@ class PerformanceReportsDataTable extends DataTable
      */
     public function query(): QueryBuilder
     {
-        $model = PerformanceReport::with('file')->where('user_id', 1)->orderBy("created_at","desc");
+        $id = auth()->user()->id;
+        $model = PerformanceReport::with('file')->where('user_id', $id)->orderBy("created_at","desc");
         return $model->newQuery();
     }
 

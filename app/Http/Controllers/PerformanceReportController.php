@@ -40,8 +40,7 @@ class PerformanceReportController extends Controller
         // getdata description & get file
         $data = $request->validated();
         // get auth user
-        // $authId = Auth::user()->id;
-        $authId = 1;
+        $authId = Auth::user()->id;
 
         //buat performance report
         $report = PerformanceReport::create([
