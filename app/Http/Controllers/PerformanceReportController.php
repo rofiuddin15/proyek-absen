@@ -52,7 +52,7 @@ class PerformanceReportController extends Controller
             $fileName = "original";
 
             if($request->hasFile('report_file')){
-                $fileName = time() . '.' . $request->file('report_file')->getClientOriginalExtension();
+                $fileName = time() . '.webp';
                 $request->file('report_file')->storeAs('public/kinerja', $fileName);
             }
 

@@ -3,7 +3,6 @@
  $profile = App\Models\UserProfile::where('user_id', $id)->first();
 ?>
 
-
 <nav
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar"
@@ -48,7 +47,7 @@
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
                       <div class="embed-responsive-mini embed-responsive-1by1">
-                        <img src="{{$data->avatar != null ? url('storage/avatar/' . $data->avatar) : asset('sneat/assets/img/avatars/1.png')}}" alt class="card-img-top-mini rounded embed-responsive-item" />
+                        <img src="{{$profile->avatar != null ? url('storage/avatar/' . $profile->avatar) : asset('sneat/assets/img/avatars/1.png')}}" alt class="card-img-top-mini rounded embed-responsive-item" />
                       </div>
                     </div>
                   </a>
