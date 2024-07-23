@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('shift-absen', ShiftPresenceController::class);
     Route::resource('presensi', PresenceController::class);
     Route::resource('karyawan', UserProfileController::class);
+    Route::get('/profil', [UserProfileController::class, 'show'])->name('profil.show');
     Route::resource('laporan-kinerja', PerformanceReportController::class)->only('index', 'destroy', 'create', 'store');
     Route::resource('presensi-rekap', PresenceReportController::class);
 });

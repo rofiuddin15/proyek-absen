@@ -78,9 +78,10 @@ class UserProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserProfile $userProfile)
+    public function show()
     {
-        //
+        $data = UserProfile::with('user')->where('user_id', auth()->user()->id)->first();
+        return view('karyawan.show', compact('data'));
     }
 
     /**
@@ -121,27 +122,44 @@ class UserProfileController extends Controller
                  'email' => $data['email'],
              ]);
 
-            //** USER SHIFT */
-            $currentShiftIds = UserShift::where('user_id', $id)->pluck('grup_shift_id')->toArray();
-    
-            $shiftsToAdd = array_diff($data['shift'], $currentShiftIds);
-    
-            $shiftsToRemove = array_diff($currentShiftIds, $data['shift']);
-    
-            // Add new shifts
-            foreach ($shiftsToAdd as $shiftId) {
-                UserShift::create([
-                    'user_id' => $id,
-                    'grup_shift_id' => $shiftId
-                ]);
+             if (isset($data["shift"])) {
+                //** USER SHIFT */
+                $currentShiftIds = UserShift::where('user_id', $id)->pluck('grup_shift_id')->toArray();
+        
+                $shiftsToAdd = array_diff($data['shift'], $currentShiftIds);
+        
+                $shiftsToRemove = array_diff($currentShiftIds, $data['shift']);
+        
+                // Add new shifts
+                foreach ($shiftsToAdd as $shiftId) {
+                    UserShift::create([
+                        'user_id' => $id,
+                        'grup_shift_id' => $shiftId
+                    ]);
+                }
+        
+                // Remove old shifts
+                UserShift::where('user_id', $id)
+                        ->whereIn('grup_shift_id', $shiftsToRemove)
+                        ->delete();
+             }
+
+             if (isset($data["tugas"])) {
+                $profile->user->syncRoles($data["tugas"]);
+             }
+
+             if (isset($data["label"])) {
+                 if ($data['label'] == 'profil') {
+                    return redirect()->route('profil.show');
+                 }else{
+                    return redirect()->route('karyawan.index');
+                }
+            }else{
+                return redirect()->route('karyawan.index');
             }
-    
-            // Remove old shifts
-            UserShift::where('user_id', $id)
-                    ->whereIn('grup_shift_id', $shiftsToRemove)
-                    ->delete();
+
+
             
-            return redirect()->route('karyawan.index');
         }
 
     }
