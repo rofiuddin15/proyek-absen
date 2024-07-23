@@ -35,9 +35,9 @@
               <td>{{ $item->name }}</td>
               <td>
                 <div class="btn-group btn-small" role="group" aria-label="First group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <a href="{{route('role.edit', ['role' => $item->id])}}" type="button" class="btn btn-sm btn-outline-secondary">
                       <i class="tf-icons bx bx-pencil"></i>
-                    </button>
+                    </a>
                     <button type="button" class="btn btn-sm btn-outline-secondary">
                       <i class="tf-icons bx bx-trash"></i>
                     </button>

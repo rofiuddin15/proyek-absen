@@ -62,15 +62,29 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $role = Role::findorfail($id);
+        $currentPermission = $role->permissions->pluck('name')->toArray();
+        $data = Permission::all();
+
+        return view('role.edit', compact(['role', 'currentPermission', 'data']));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RoleRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+        $role = Role::findorfail($id);
+        if ($data) {
+            $role->update([
+                'name' => $data['name']
+            ]);
+            $role->syncPermissions($data['permission']);
+
+            return redirect()->route('role.index');
+        }
+
     }
 
     /**
