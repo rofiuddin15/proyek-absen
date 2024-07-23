@@ -8,9 +8,11 @@ use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\DataTables\UserProfileDataTable;
+use App\Http\Requests\AvatarUpdateRequest;
 use App\Http\Requests\PasswordUpdateRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\UserShift;
+use Illuminate\Support\Facades\File;
 use Spatie\Permission\Models\Role;
 
 class UserProfileController extends Controller
@@ -99,6 +101,29 @@ class UserProfileController extends Controller
                 return redirect()->back()->withErrors(["message" => "Password Lama tidak sesuai"]);
             }
         }
+    }
+
+    public function updateAvatar(AvatarUpdateRequest $request){
+        $data = $request->validated();
+        $profile = UserProfile::where('user_id',auth()->user()->id)->first();
+        if ($profile) {
+            $fileName = "original";
+
+            if($request->hasFile('avatar')){
+                if ($profile->avatar != null) {
+                    $path = storage_path().'/app/public/avatar/'.$profile->avatar;
+                    if(File::exists($path)){
+                        unlink($path);
+                    }
+                }
+                $fileName = time() . '.webp';
+                $request->file('avatar')->storeAs('public/avatar', $fileName);
+
+            }
+            $profile->update(['avatar' => $fileName]);
+            return redirect()->route('profil.show');
+        }
+
     }
 
     /**

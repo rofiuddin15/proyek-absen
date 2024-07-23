@@ -3,6 +3,20 @@
 @push('css')
 <link rel="stylesheet" href="{{ asset('sneat/assets/css/select2-bootstrap-5-theme.min.css')}}" />       
 <link rel="stylesheet" href="{{ asset('sneat/assets/css/select2.min.css')}}" />       
+<style>
+  .embed-responsive {
+    object-fit: cover;
+    width: 30vh;
+    height: 30vh;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .card-img-top {
+    width: 100%;
+    height: 40vh;
+    object-fit: cover;
+  }
+</style>
 @endpush
 
 @section('content')
@@ -18,7 +32,9 @@
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-center align-items-center mb-5">
-                    <img src="{{ asset('sneat/assets/img/avatars/1.png')}}" alt class="rounded-circle" />
+                  <div class="embed-responsive embed-responsive-1by1">
+                    <img src="{{$data->avatar != null ? url('storage/avatar/' . $data->avatar) : asset('sneat/assets/img/avatars/1.png')}}" alt="foto rusak" class="card-img-top rounded embed-responsive-item" />
+                 </div>
                 </div>
                 <button data-bs-toggle="modal" data-bs-target="#avatarModal" class="btn btn-outline-secondary form-control mb-3">
                     <i class="tf-icons bx bx-camera"></i> Ganti Foto
@@ -149,16 +165,18 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="{{route('profil.password')}}" method="POST" class="form-group">
+          <form action="{{route('profil.avatar')}}" method="POST" class="form-group" enctype="multipart/form-data">
             @csrf
             <div class="mb-3 row justify-content-center">
               <div class="col-auto">
-                <img src="{{asset('sneat/assets/img/backgrounds/no_image.png')}}" id="pic1" alt="" class="img-thumbnail rounded">
+                <div class="embed-responsive embed-responsive-1by1">
+                  <img src="{{$data->avatar != null ? url('storage/avatar/' . $data->avatar) : asset('sneat/assets/img/backgrounds/no_image.png')}}" id="pic1" alt="" class="card-img-top rounded embed-responsive-item">
+                </div>
               </div>
             </div>
             <div class="mb-3">
               <label for="" class="form-label">Ambil Foto</label>
-              <input type="file" name="avatar" accept="image/*" class="form-control">
+              <input type="file" name="avatar" accept="image/*" class="form-control" required>
             </div>
           </div>
           <div class="modal-footer">

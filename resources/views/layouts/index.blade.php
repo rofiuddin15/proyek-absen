@@ -25,6 +25,20 @@
 
     @stack('css')
     
+    <style>
+      .embed-responsive-mini {
+        object-fit: cover;
+        width: 5vh;
+        height: 5vh;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+      .card-img-top-mini {
+        width: 100%;
+        height: 30vh;
+        object-fit: cover;
+      }
+    </style>
   </head>
 
   <body>
