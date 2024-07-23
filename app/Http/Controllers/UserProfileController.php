@@ -8,6 +8,7 @@ use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\DataTables\UserProfileDataTable;
+use App\Http\Requests\PasswordUpdateRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\UserShift;
 use Spatie\Permission\Models\Role;
@@ -82,6 +83,22 @@ class UserProfileController extends Controller
     {
         $data = UserProfile::with('user')->where('user_id', auth()->user()->id)->first();
         return view('karyawan.show', compact('data'));
+    }
+
+    public function updatePassword(PasswordUpdateRequest $request,string $id){
+        $data = $request->validated();
+        $user = User::findorfail($id);
+        if ($user) {
+            if (Hash::check($data['oldPassword'], $user->password)) {
+                $user->update([
+                    'password' => Hash::make($data['newPassword'])
+                ]);
+
+                return redirect()->route('profil.show');
+            }else{
+                return redirect()->back()->withErrors(["message" => "Password Lama tidak sesuai"]);
+            }
+        }
     }
 
     /**
