@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth'], function(){
     // Route::get('/profil', [UserProfileController::class, 'show'])->name('profil.show');
     Route::controller(UserProfileController::class)->group(function(){
         Route::get('/profil', 'show')->name('profil.show');
-        Route::post('/profil', 'updatePassword')->name('profil.password');
+        Route::post('/profil-password', 'updatePassword')->name('profil.password');
     });
     Route::resource('laporan-kinerja', PerformanceReportController::class)->only('index', 'destroy', 'create', 'store');
     Route::resource('presensi-rekap', PresenceReportController::class);

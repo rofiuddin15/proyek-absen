@@ -23,16 +23,16 @@
                 <a href="" class="btn btn-outline-secondary form-control mb-3">
                     <i class="tf-icons bx bx-camera"></i> Ganti Foto
                 </a>
-                <a href="" class="btn btn-outline-secondary form-control mb-3">
+                <button data-bs-toggle="modal" data-bs-target="#passwordModal" class="btn btn-outline-secondary form-control mb-3">
                     <i class="tf-icons bx bx-lock"></i> Ganti Password
-                </a>
+                </button>
             </div>
         </div>
     </div>
     <div class="col-md-9">
       <div class="card mb-2">
         <div class="card-header d-flex justify-content-between align-items-center">
-          <h5 class="mb-0">Tambah Karyawan</h5>
+          <h5 class="mb-0">Edit Profil</h5>
           {{-- <small class="text-muted float-end">Default label</small> --}}
         </div>
         <div class="card-body">
@@ -96,6 +96,51 @@
     </div>
   </div>
 </div>    
+ {{-- MODAL --}}
+  <!-- Modal -->
+  <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="passwordModalLabel">Update Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="{{route('profil.password')}}" method="POST" class="form-group">
+            @csrf
+            <div class="mb-3">
+              <label for="" class="form-label">Password Lama</label>
+              <input
+              type="password"
+              id="password"
+              class="form-control"
+              name="oldPassword"
+              placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+              aria-describedby="password"
+              required
+            />
+            </div>
+            <div class="mb-3">
+              <label for="" class="form-label">Password Baru</label>
+              <input
+              type="password"
+              id="password"
+              class="form-control"
+              name="newPassword"
+              placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+              aria-describedby="password"
+              required
+            />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{-- End of Modal --}}
 @endsection
 
 @push('js')

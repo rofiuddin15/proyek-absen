@@ -85,9 +85,9 @@ class UserProfileController extends Controller
         return view('karyawan.show', compact('data'));
     }
 
-    public function updatePassword(PasswordUpdateRequest $request,string $id){
+    public function updatePassword(PasswordUpdateRequest $request){
         $data = $request->validated();
-        $user = User::findorfail($id);
+        $user = User::findorfail(auth()->user()->id);
         if ($user) {
             if (Hash::check($data['oldPassword'], $user->password)) {
                 $user->update([
