@@ -87,7 +87,11 @@
                 <select class="form-select select2" name="tugas" id="role" data-placeholder="Pilih salah satu" required>
                   <option value="{{null}}">---Pilih Tugas---</option>
                   @foreach ($role as $item)
-                  <option value="{{$item->name}}" {{$userRole[0] == $item->name ? 'selected' : ''}}>{{ $item->name }}</option>    
+                  <?php 
+                  ?>
+                  <option value="{{$item->name}}" {{
+                      count($userRole) > 0 ? $userRole[0] == $item->name ? 'selected' : '' : ''
+                    }}>{{ $item->name }}</option>    
                   @endforeach
                 </select>
               </div>
