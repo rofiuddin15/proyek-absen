@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('shift_presence_id');
             $table->string('name');
+            $table->enum("day", ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]);
             $table->timestamps();
         });
     }

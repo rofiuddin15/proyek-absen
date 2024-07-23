@@ -34,6 +34,7 @@ class ShiftGrupController extends Controller
         $store = ShiftGrup::create([
             'name' => $request->name,
             'shift_presence_id' => $request->shift_id,
+            'day' => $request->day,
         ]);
 
         if ($store) {
