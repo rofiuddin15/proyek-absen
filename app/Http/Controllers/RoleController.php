@@ -92,6 +92,12 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $role = Role::findorfail($id);
+        if ($role) {
+            $role->syncPermissions([]);
+            $role->delete();
+
+            return redirect()->route('role.index');
+        }
     }
 }

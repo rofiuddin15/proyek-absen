@@ -35,12 +35,18 @@
               <td>{{ $item->name }}</td>
               <td>
                 <div class="btn-group btn-small" role="group" aria-label="First group">
+                  <form action="{{route('role.destroy', ['role' => $item->id])}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="_method" value="DELETE">
+                    <div class="btn-group">
                     <a href="{{route('role.edit', ['role' => $item->id])}}" type="button" class="btn btn-sm btn-outline-secondary">
                       <i class="tf-icons bx bx-pencil"></i>
                     </a>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">
-                      <i class="tf-icons bx bx-trash"></i>
+                    <button type="submit"  class="btn btn-sm btn-outline-secondary">
+                        <i class="tf-icons bx bx-trash"></i>
                     </button>
+                    </div>
+                </form>
                   </div>
               </td>
             </tr>        
