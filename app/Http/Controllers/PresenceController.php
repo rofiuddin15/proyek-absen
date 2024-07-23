@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PresenceRequest;
 use App\Models\Presence;
+use App\Models\PresenceFile;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PresenceController extends Controller
@@ -26,9 +29,40 @@ class PresenceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PresenceRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        if ($data) {
+            $current_time = Carbon::now()->format('H:i');
+            $presence = Presence::create([
+                'user_id' => auth()->user()->id,
+                'checkin' => $current_time,
+            ]);
+
+            if ($presence) {
+                if ($request->hasFile('photo')) {
+                    $fileName = rand() .time() . '.webp';
+                    $request->file('photo')->storeAs('public/presensi', $fileName);
+
+                    PresenceFile::create([
+                        'presence_id' => $presence->id,
+                        'photo' => $fileName
+                    ]);
+                }
+                if ($request->hasFile('photo2')) {
+                    $fileName = rand() .time() . '.webp';
+                    $request->file('photo')->storeAs('public/presensi', $fileName);
+
+                    PresenceFile::create([
+                        'presence_id' => $presence->id,
+                        'photo' => $fileName
+                    ]);
+                }
+
+                return redirect()->route('presensi.create');
+            }
+        }
     }
 
     /**

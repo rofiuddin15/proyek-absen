@@ -80,8 +80,9 @@
 
           <form id="formAuthentication" class="mb-3" action="{{ route('presensi.store')}}" method="POST" enctype="multipart/form-data">
             <div class="mb-3 d-md-flex flex-md-row justify-content-between">
-              <input type="file" id="imageSelected" class="form-control" hidden>
-              <input type="file" id="imageSelected2" class="form-control" hidden>
+              <input type="hidden" id="csrfToken" value="{{ csrf_token() }}">
+              <input type="file" id="imageSelected" name="photo" class="form-control" hidden>
+              <input type="file" id="imageSelected2" name="photo2" class="form-control" hidden>
             </div>
             <div class="row mb-3 d-none" id="allPic">
               <div class="col-md-6">
@@ -98,7 +99,7 @@
               <p class="text-center ps-md-2">Ambil Gambar</p>
             </div>
             <div class="mb-3">
-              <a href="ww" id="checkInOut" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
+              <a href="#" id="checkIn" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
                 <div class="card-body">
                   <i class="bx bx-log-in-circle mb-2"></i>
                   <p class="icon-name text-capitalize text-truncate mb-0">CHECK IN</p>
@@ -112,7 +113,7 @@
               </div> --}}
             </div>
             <div class="mb-3">
-              <a href="ww" id="checkInOut" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
+              <a href="ww" id="checkOut" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
                 <div class="card-body">
                   <i class="bx bx-log-out-circle mb-2"></i>
                   <p class="icon-name text-capitalize text-truncate mb-0">CHECK OUT</p>
@@ -314,11 +315,42 @@
     $('#exampleModal').modal('hide');
     takeGambar.style.visibility = 'hidden';
     takeGambar.classList.remove('mb-3');
-    const elements = document.querySelectorAll('#checkInOut');
-    elements.forEach(element => {
-        element.classList.remove('disabled');
-        element.classList.remove('bg-secondary');
-    });
+    $('#checkIn').removeClass('disabled bg-secondary');
+    $('#checkOut').removeClass('disabled bg-secondary');
   })
+
+  $('#checkIn').on('click', function() {
+    var fileInput = document.getElementById('imageSelected');
+    var fileInput2 = document.getElementById('imageSelected2');
+    var file = fileInput.files[0];
+    var file2 = fileInput2.files[0];
+    var formData = new FormData();
+
+    formData.append('photo', file);
+    formData.append('photo2', file2);
+
+    var csrfToken = document.getElementById('csrfToken').value;
+
+    $.ajax({
+        url: "{{ route('presensi.store') }}",
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        },
+        success: function(response) {
+          window.location.href = "{{ route('presensi.create') }}";
+          alert('Berhasil Absen');
+        },
+        error: function(xhr, status, error) {
+            console.log('Error:', error);
+        }
+    });
+  });
+  $('#checkOut').on('click', function() {
+    alert('checkOut');
+  });
 </script>
 @endpush
