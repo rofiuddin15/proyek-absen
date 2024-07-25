@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('longtime')->default(1);
             $table->timestamp('start_day')->nullable();
             $table->timestamp('end_day')->nullable();
+            $table->unsignedBigInteger('apporved_by')->nullable();
+            $table->enum('approve_status', [0,1])->default(0);
             $table->timestamps();
         });
     }
