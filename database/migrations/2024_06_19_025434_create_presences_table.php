@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
-            $table->time('checkin');
+            $table->time('checkin')->nullable();
             $table->time('checkout')->nullable();
             $table->timestamps();
         });

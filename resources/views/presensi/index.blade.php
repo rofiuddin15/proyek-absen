@@ -77,12 +77,50 @@
             <p class="mb-4">Please sign-in to your account</p>
 
           </div> --}}
+          {{-- <p>{{$jam}}</p> --}}
+          <span class="badge bg-success form-control">
+            @switch($jam2)
+                @case(1)
+                    <?php $messageJam2 = "Anda Telah melakukan absen masuk" ?>
+                    @break
+                @case(2)
+                    <?php $messageJam2 = "Anda telah melakukan absen pulang" ?>
+                    @break
+                @default
+                  <?php $messageJam2 = "Anda Belum Melakukan Absen" ?>
+                  @break
+            @endswitch
+            {{$messageJam2}}
+          </span>
+          <span class="badge bg-warning form-control">
+            @switch($jam)
+                @case(1)
+                    <?php $messageJam = "Anda Memasuki jam absen kedatangan" ?>
+                    @break
+                @case(2)
+                    <?php $messageJam = "Anda Memasuki Jam Absen kepulangan" ?>
+                    @break
+                @case(3)
+                    <?php $messageJam = "tidak bisa absen masuk" ?>
+                    @break
+                @case(4)
+                    <?php $messageJam = "tidak bisa absen pulang" ?>
+                    @break
+                @default
+                  <?php $messageJam = "Anda Belum Memasuki Jam Absen" ?>
+                  @break
+            @endswitch
+            {{$messageJam}}
+          </span>
 
           <form id="formAuthentication" class="mb-3" action="{{ route('presensi.store')}}" method="POST" enctype="multipart/form-data">
             <div class="mb-3 d-md-flex flex-md-row justify-content-between">
               <input type="hidden" id="csrfToken" value="{{ csrf_token() }}">
+              <input type="hidden" id="method" name="_method" value="PATCH">
               <input type="file" id="imageSelected" name="photo" class="form-control" hidden>
               <input type="file" id="imageSelected2" name="photo2" class="form-control" hidden>
+              <input type="text" name="latitude" id="latitude" hidden>
+              <input type="text" name="longitude" id="longitude" hidden>
             </div>
             <div class="row mb-3 d-none" id="allPic">
               <div class="col-md-6">
@@ -99,32 +137,47 @@
               <p class="text-center ps-md-2">Ambil Gambar</p>
             </div>
             <div class="mb-3">
-              <a href="#" id="checkIn" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
-                <div class="card-body">
-                  <i class="bx bx-log-in-circle mb-2"></i>
-                  <p class="icon-name text-capitalize text-truncate mb-0">CHECK IN</p>
-                </div>
-              </a>
-              {{-- <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
-                <div class="card-body">
-                  <i class="bx bx-log-in-circle mb-2"></i>
-                  <p class="icon-name text-capitalize text-truncate mb-0">CHECK IN</p>
-                </div>
-              </div> --}}
+              @if ($jam === 1)
+                <a href="#" id="checkIn" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
+                  <div class="card-body">
+                    <i class="bx bx-log-in-circle mb-2"></i>
+                    <p class="icon-name text-capitalize text-truncate mb-0">CHECK IN</p>
+                  </div>
+                </a>
+              @else
+                <a href="#" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
+                  <div class="card-body">
+                    <i class="bx bx-log-in-circle mb-2"></i>
+                    <p class="icon-name text-capitalize text-truncate mb-0">CHECK IN</p>
+                  </div>
+                </a>
+              @endif
             </div>
             <div class="mb-3">
-              <a href="ww" id="checkOut" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
-                <div class="card-body">
-                  <i class="bx bx-log-out-circle mb-2"></i>
-                  <p class="icon-name text-capitalize text-truncate mb-0">CHECK OUT</p>
-                </div>
-              </a>
-              {{-- <div class="card icon-card cursor-pointer text-center mb-4 mx-2">
-                <div class="card-body">
-                  <i class="bx bx-log-out-circle mb-2"></i>
-                  <p class="icon-name text-capitalize text-truncate mb-0">CHECK OUT</p>
-                </div>
-              </div> --}}
+              @if ($jam != 2)
+                <a href="ww" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
+                  <div class="card-body">
+                    <i class="bx bx-log-out-circle mb-2"></i>
+                    <p class="icon-name text-capitalize text-truncate mb-0">CHECK OUT</p>
+                  </div>
+                </a>
+              @else
+                @if ($checkKinerja != 0 &&  $jam === 2)
+                <a href="#" id="checkOut" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
+                  <div class="card-body">
+                    <i class="bx bx-log-out-circle mb-2"></i>
+                    <p class="icon-name text-capitalize text-truncate mb-0">CHECK OUT</p>
+                  </div>
+                </a>
+                @else
+                <a href="#" id="checkOutX" onclick="alert('anda belum membuat laporan kinerja');"  class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
+                  <div class="card-body">
+                    <i class="bx bx-log-out-circle mb-2"></i>
+                    <p class="icon-name text-capitalize text-truncate mb-0">CHECK OUT</p>
+                  </div>
+                </a>
+                @endif
+              @endif
             </div>
           </form>
 
@@ -180,17 +233,34 @@
 @endsection
 
 @push('js')
-<script>
+  <script>
+  const lat = document.getElementById('latitude');
+  const long = document.getElementById('longitude');
+// LOKASI
+if (navigator.geolocation) {
+    var position = navigator.geolocation.watchPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+  
+  function showPosition(position) {
+    lat.value = position.coords.latitude;
+    long.value = position.coords.longitude;
+  }
+
+
   // Access the camera
   const video = document.getElementById('video');
 
-  // Check if the browser supports getUserMedia
+  // // Check if the browser supports getUserMedia
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
           video.srcObject = stream;
           video.play();
       });
   }
+
+  
 
   // Take a picture when the button is clicked
   const canvas = document.getElementById('canvas');
@@ -317,17 +387,22 @@
     takeGambar.classList.remove('mb-3');
     $('#checkIn').removeClass('disabled bg-secondary');
     $('#checkOut').removeClass('disabled bg-secondary');
+    $('#checkOutX').removeClass('disabled bg-secondary');
   })
 
   $('#checkIn').on('click', function() {
     var fileInput = document.getElementById('imageSelected');
     var fileInput2 = document.getElementById('imageSelected2');
+    var lat = document.getElementById('latitude').value;
+    var long = document.getElementById('longitude').value;
     var file = fileInput.files[0];
     var file2 = fileInput2.files[0];
     var formData = new FormData();
 
     formData.append('photo', file);
     formData.append('photo2', file2);
+    formData.append('latitude', lat);
+    formData.append('longitude', long);
 
     var csrfToken = document.getElementById('csrfToken').value;
 
@@ -350,7 +425,57 @@
     });
   });
   $('#checkOut').on('click', function() {
-    alert('checkOut');
+    event.preventDefault();
+    var fileInput = document.getElementById('imageSelected');
+    var fileInput2 = document.getElementById('imageSelected2');
+    // var method = document.getElementById('method');
+    var method = document.querySelector('input[name="_method"]').value;
+    var lat = document.getElementById('latitude').value;
+    var long = document.getElementById('longitude').value;
+    var file = fileInput.files[0];
+    // console.log();
+    var file2 = fileInput2.files[0];
+    // Validation
+    if (!fileInput.files.length || !fileInput2.files.length) {
+        alert('Please select both images.');
+        return;
+    }
+
+    if (!lat || !long) {
+        alert('Please enter both latitude and longitude.');
+        return;
+    }
+
+    var formData2 = new FormData();
+
+    formData2.append('photo', file);
+    formData2.append('photo2', file2);
+    formData2.append('latitude', lat);
+    formData2.append('longitude', long);
+    formData2.append('_method', method);
+
+
+    var csrfToken = document.getElementById('csrfToken').value;
+
+    $.ajax({
+        url: "{{ route('presensi.update', ['presensi' => '1']) }}",
+        type: 'POST',
+        data: formData2,
+        processData: false,
+        contentType: false,
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        },
+        success: function(response) {
+          window.location.href = "{{ route('presensi.create') }}";
+          alert('Berhasil Absen');
+        },
+        error: function(xhr, status, error) {
+            console.log('Error:', error);
+          alert('Gagal Absen');
+
+        }
+    });
   });
 </script>
 @endpush

@@ -24,6 +24,8 @@ class PresenceRequest extends FormRequest
         return [
             'photo' => 'required|image',
             'photo2' => 'required|image',
+            'latitude' => 'required',
+            'longitude' => 'required',
         ];
     }
 }
