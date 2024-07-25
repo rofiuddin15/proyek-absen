@@ -32,6 +32,7 @@ class PermissionSeeder extends Seeder
         Permission::create(["name"=> "ShiftGrup Create", "guard_name" => $guard_name]);
         Permission::create(["name"=> "ShiftGrup Update", "guard_name" => $guard_name]);
         Permission::create(["name"=> "ShiftGrup Delete", "guard_name" => $guard_name]);
-        
+        Permission::create(["name"=> "RekapPresensi Read(Admin)", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "RekapPresensi Read(Karyawan)", "guard_name" => $guard_name]);
     }
 }
