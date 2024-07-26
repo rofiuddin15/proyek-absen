@@ -34,8 +34,8 @@ class PresenceController extends Controller
 
         $grupUser = UserShift::where('user_id', auth()->user()->id)->first();
         $shift = ShiftGrup::with('shift_presence')->where('id', $grupUser->grup_shift_id)->first();
-        $check = Presence::whereDate('created_at', $now)->count();
-        $checkP = Presence::whereDate('created_at', $now)->first();
+        $check = Presence::whereDate('created_at', $now)->where('user_id', auth()->user()->id)->count();
+        $checkP = Presence::whereDate('created_at', $now)->where('user_id', auth()->user()->id)->first();
         $checkKinerja = PerformanceReport::whereDate('created_at', $now)->count();
         $jam = 0;
         
@@ -43,6 +43,7 @@ class PresenceController extends Controller
         $newStartHour = $parseStartTime->copy()->addHours($shift->shift_presence->range_open_presence);
         $parseEndTime = Carbon::parse($shift->shift_presence->end_time);
         $newEndHour = $parseEndTime->copy()->addHours($shift->shift_presence->range_open_presence);
+        // return response()->json([$parseStartTime, $newStartHour], 200);
 
          // Define the range (start and end times)
         $rangejamMasukStart= Carbon::createFromTime($parseStartTime->hour, $parseStartTime->minute, $parseStartTime->second);
@@ -68,7 +69,7 @@ class PresenceController extends Controller
                 if ($carbonTime->between($rangejamMasukStart, $rangejamMasukEnd)) {
                     $jam = 1;
                 } else {
-                    return response()->json([$rangejamMasukStart, $rangejamMasukEnd]);
+                    // return response()->json([$rangejamMasukStart, $rangejamMasukEnd]);
                     $jam = 3;
                 }
             }else{

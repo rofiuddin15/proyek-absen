@@ -94,7 +94,7 @@
             </a>
           </li>      
           @endif
-          <li class="menu-item {{ Request::is('presensi*') ? 'active' : ''}}">
+          <li class="menu-item {{ Request::is(['presensi', 'presensi/*']) ? 'active' : ''}}">
             <a href="{{ route('presensi.create') }}" class="menu-link">
               <div data-i18n="Without navbar">Presensi</div>
             </a>
