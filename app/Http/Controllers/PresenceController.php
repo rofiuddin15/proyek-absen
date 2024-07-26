@@ -109,6 +109,28 @@ class PresenceController extends Controller
             ]);
 
             if ($presence) {
+                $now = Carbon::now('Asia/Jakarta');
+                $currentTime = $now->format('H:i:s');
+                $carbonTime = Carbon::parse($currentTime);
+                $grupUser = UserShift::where('user_id', auth()->user()->id)->first();
+                $shift = ShiftGrup::with('shift_presence')->where('id', $grupUser->grup_shift_id)->first();
+
+                $parseStartTime = Carbon::parse($shift->shift_presence->start_time);
+                $newStartHour = $parseStartTime->copy()->addHours($shift->shift_presence->range_open_presence);
+
+                $rangejamMasukStart= Carbon::createFromTime($parseStartTime->hour, $parseStartTime->minute, $parseStartTime->second);
+                $rangejamMasukEnd= Carbon::createFromTime($newStartHour->hour, $newStartHour->minute, $newStartHour->second);
+                
+                if ($carbonTime->between($rangejamMasukStart, $rangejamMasukEnd)) {
+                    $presence->update([
+                        'status' => 'ontime'
+                    ]);
+                } else {
+                    $presence->update([
+                        'status' => 'late'
+                    ]);
+                }
+
                 if ($request->hasFile('photo')) {
                     $fileName = rand() .time() . '.webp';
                     $request->file('photo')->storeAs('public/presensi', $fileName);
@@ -195,6 +217,28 @@ class PresenceController extends Controller
                     'lng' => $data['longitude'],
                     'checkout' => $current_time,
                 ]);
+
+                $now = Carbon::now('Asia/Jakarta');
+                $currentTime = $now->format('H:i:s');
+                $carbonTime = Carbon::parse($currentTime);
+                $grupUser = UserShift::where('user_id', auth()->user()->id)->first();
+                $shift = ShiftGrup::with('shift_presence')->where('id', $grupUser->grup_shift_id)->first();
+
+                $parseStartTime = Carbon::parse($shift->shift_presence->start_time);
+                $newStartHour = $parseStartTime->copy()->addHours($shift->shift_presence->range_open_presence);
+
+                $rangejamMasukStart= Carbon::createFromTime($parseStartTime->hour, $parseStartTime->minute, $parseStartTime->second);
+                $rangejamMasukEnd= Carbon::createFromTime($newStartHour->hour, $newStartHour->minute, $newStartHour->second);
+                
+                if ($carbonTime->between($rangejamMasukStart, $rangejamMasukEnd)) {
+                    $presence->update([
+                        'status' => 'ontime'
+                    ]);
+                } else {
+                    $presence->update([
+                        'status' => 'late'
+                    ]);
+                }
 
                 if ($request->hasFile('photo')) {
                     $fileName = rand() .time() . '.webp';

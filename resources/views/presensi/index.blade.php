@@ -101,10 +101,10 @@
                     <?php $messageJam = "Anda Memasuki Jam Absen kepulangan" ?>
                     @break
                 @case(3)
-                    <?php $messageJam = "tidak bisa absen masuk" ?>
+                    <?php $messageJam = "telat absen masuk" ?>
                     @break
                 @case(4)
-                    <?php $messageJam = "tidak bisa absen pulang" ?>
+                    <?php $messageJam = "belum bisa absen pulang" ?>
                     @break
                 @default
                   <?php $messageJam = "Anda Belum Memasuki Jam Absen" ?>
@@ -137,7 +137,7 @@
               <p class="text-center ps-md-2">Ambil Gambar</p>
             </div>
             <div class="mb-3">
-              @if ($jam === 1)
+              @if ($jam === 1 || $jam === 3)
                 <a href="#" id="checkIn" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
                   <div class="card-body">
                     <i class="bx bx-log-in-circle mb-2"></i>
@@ -154,7 +154,7 @@
               @endif
             </div>
             <div class="mb-3">
-              @if ($jam != 2)
+              @if ($jam != 2 || $jam != 4)
                 <a href="ww" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
                   <div class="card-body">
                     <i class="bx bx-log-out-circle mb-2"></i>
@@ -162,7 +162,7 @@
                   </div>
                 </a>
               @else
-                @if ($checkKinerja != 0 &&  $jam === 2)
+                @if ($checkKinerja != 0 &&  $jam === 2 || $checkKinerja != 0 &&  $jam === 4)
                 <a href="#" id="checkOut" class="btn card icon-card cursor-pointer text-center mb-4 mx-2 disabled bg-secondary">
                   <div class="card-body">
                     <i class="bx bx-log-out-circle mb-2"></i>

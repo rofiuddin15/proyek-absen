@@ -36,11 +36,20 @@ class RekapPresenceAdminDataTable extends DataTable
                 return $presence->user_profile->first_name . ' ' . $presence->user_profile->last_name;
             })
             ->addColumn('Jam Masuk', function(Presence $presence){
-                return $presence->checkin;
+                $status = $presence->status == "late" ? "Telat" : '';
+                
+                $html = '
+                    '. $presence->checkin . ' 
+                    <span class="badge bg-warning">
+                        ' .  $status  .'
+                    </span>
+                ';
+                return $html;
             })
             ->addColumn('Jam Pulang', function(Presence $presence){
                 return $presence->checkout;
-            });
+            })
+            ->rawColumns([ 'Jam Masuk']);
     }
 
     /**
