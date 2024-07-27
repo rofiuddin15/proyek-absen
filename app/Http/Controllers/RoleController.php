@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -30,19 +31,18 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        // dd($request->permission);
+        $data = $request->validated();
         $add = Role::create([
-            "name"=> $request->name,
+            "name"=> $data["name"],
             "guard_name" => "web",
         ]);
 
         if ($add) {
-            $permit = $add->givePermissionTo([$request->premission]);
+            $permit = $add->givePermissionTo($data["permission"]);
             if ($permit) {
                 return redirect()->route("role.index")->with("success","berhasil tambah data");
-
             }
         } else {
             return redirect()->back()->with("error","gagal simpan data");
@@ -62,15 +62,29 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $role = Role::findorfail($id);
+        $currentPermission = $role->permissions->pluck('name')->toArray();
+        $data = Permission::all();
+
+        return view('role.edit', compact(['role', 'currentPermission', 'data']));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RoleRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+        $role = Role::findorfail($id);
+        if ($data) {
+            $role->update([
+                'name' => $data['name']
+            ]);
+            $role->syncPermissions($data['permission']);
+
+            return redirect()->route('role.index');
+        }
+
     }
 
     /**
@@ -78,6 +92,12 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $role = Role::findorfail($id);
+        if ($role) {
+            $role->syncPermissions([]);
+            $role->delete();
+
+            return redirect()->route('role.index');
+        }
     }
 }

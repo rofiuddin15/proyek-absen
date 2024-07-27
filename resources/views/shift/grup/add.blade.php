@@ -28,6 +28,20 @@
                   @endforeach
                 </select>
               </div>
+              <div class="mb-3">
+                <label for="day" class="form-label">Hari</label>
+                <select name="day" id="day" class="form-control">
+                  <option value="{{null}}">--Pilih Hari--</option>
+                  <option value="Monday">Senin</option>
+                  <option value="Tuesday">Selasa</option>
+                  <option value="Wednesday">Rabu</option>
+                  <option value="Thursday">Kamis</option>
+                  <option value="Friday">Jum'at</option>
+                  <option value="Saturday">Sabtu</option>
+                  <option value="Sunday">Minggu</option>
+                  
+                </select>
+              </div>
               <div class="text-end">
                 <button type="submit" class="btn btn-primary">Simpan</button>
               </div>

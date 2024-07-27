@@ -16,4 +16,14 @@ class UserProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get the user that owns the UserProfile
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function presence(): BelongsTo
+    {
+        return $this->belongsTo(Presence::class);
+    }
 }

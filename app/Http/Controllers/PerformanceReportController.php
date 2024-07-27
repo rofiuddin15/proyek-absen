@@ -40,8 +40,7 @@ class PerformanceReportController extends Controller
         // getdata description & get file
         $data = $request->validated();
         // get auth user
-        // $authId = Auth::user()->id;
-        $authId = 1;
+        $authId = Auth::user()->id;
 
         //buat performance report
         $report = PerformanceReport::create([
@@ -53,7 +52,7 @@ class PerformanceReportController extends Controller
             $fileName = "original";
 
             if($request->hasFile('report_file')){
-                $fileName = time() . '.' . $request->file('report_file')->getClientOriginalExtension();
+                $fileName = time() . '.webp';
                 $request->file('report_file')->storeAs('public/kinerja', $fileName);
             }
 

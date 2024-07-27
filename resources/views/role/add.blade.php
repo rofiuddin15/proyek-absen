@@ -22,11 +22,11 @@
                 <input type="hidden" name="_token" value="{{ csrf_token()}}" />
               <div class="mb-3">
                 <label class="form-label" for="basic-default-fullname">Nama Penugasan (ROLE)</label>
-                <input type="text" name="name" class="form-control" id="basic-default-fullname" placeholder="Admin, Staf atau lainnya.." />
+                <input type="text" name="name" class="form-control" id="basic-default-fullname" placeholder="Admin, Staf atau lainnya.." required/>
               </div>
               <div class="mb-3">
                 <label class="form-label" for="multiple-select">Hak Akses</label>
-                <select name="permission[]" class="form-select" id="multiple-select" data-placeholder="Pilih beberapa hak akses" multiple>
+                <select name="permission[]" class="form-select" id="multiple-select" data-placeholder="Pilih beberapa hak akses" multiple required>
                   <option></option>
                   @foreach ($data as $item)
                   <option value="{{ $item->name }}">{{ $item->name }}</option>    

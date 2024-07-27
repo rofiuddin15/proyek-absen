@@ -89,12 +89,12 @@
         <ul class="menu-sub">
           @if (auth()->user())
           <li class="menu-item {{ Request::is('profil*') ? 'active' : ''}}">
-            <a href="{{ route('karyawan.show', 1)}}" class="menu-link">
+            <a href="{{ route('profil.show')}}" class="menu-link">
               <div data-i18n="Without menu">Profil</div>
             </a>
           </li>      
           @endif
-          <li class="menu-item {{ Request::is('presensi*') ? 'active' : ''}}">
+          <li class="menu-item {{ Request::is(['presensi', 'presensi/*']) ? 'active' : ''}}">
             <a href="{{ route('presensi.create') }}" class="menu-link">
               <div data-i18n="Without navbar">Presensi</div>
             </a>

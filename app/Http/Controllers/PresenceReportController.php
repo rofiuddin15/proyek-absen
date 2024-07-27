@@ -2,16 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\RekapPresenceAdminDataTable;
+use App\DataTables\RekapPresenceDataTable;
+use App\Models\Presence;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PresenceReportController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(RekapPresenceDataTable $dataTable, RekapPresenceAdminDataTable $dataTableAdmin)
     {
-        return view("laporan.presensi.index");
+        $user = User::findorfail(auth()->user()->id);
+        if ($user->hasPermissionTo('RekapPresensi Read(Admin)')) {
+            return $dataTableAdmin->render('laporan.presensi.index');
+        } else {
+            return $dataTable->render('laporan.presensi.index');
+        }
     }
 
     /**
