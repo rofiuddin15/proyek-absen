@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('shift_presences', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->timestamp('start_time')->nullable();
-            $table->timestamp('end_time')->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
             $table->bigInteger('range_open_presence')->default(1); // lama masa absen dari mulai
             $table->timestamps();
         });
