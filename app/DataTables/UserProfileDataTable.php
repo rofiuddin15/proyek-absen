@@ -25,24 +25,32 @@ class UserProfileDataTable extends DataTable
             ->addColumn('action', function(UserProfile $user) {
                 $deleteUrl =  route('karyawan.destroy', ['karyawan' => $user->user_id]);
                 $editUrl =  route('karyawan.edit', ['karyawan' => $user->user_id]);
-
-                $html = '
-                    <form action="'. $deleteUrl .'" method="POST">
-                        '. csrf_field() .'
-                        <input type="hidden" name="_method" value="DELETE">
-                        <div class="btn-group">
+                $id = $user->user_id;
+                // $html = '
+                //     <form action="'. $deleteUrl .'" method="POST">
+                //         '. csrf_field() .'
+                //         <input type="hidden" name="_method" value="DELETE">
+                //         <div class="btn-group">
+                //         <a href="' . $editUrl .'" class="btn btn-sm btn-outline-secondary">
+                //             <i class="tf-icons bx bx-pencil"></i>
+                //         </a>
+                //         <button type="submit"  class="btn btn-sm btn-outline-secondary">
+                //             <i class="tf-icons bx bx-trash"></i>
+                //         </button>
+                //         </div>
+                //     </form>
+                // ';
+                $html = '<div class="btn-group">
                         <a href="' . $editUrl .'" class="btn btn-sm btn-outline-secondary">
                             <i class="tf-icons bx bx-pencil"></i>
                         </a>
-                        <button type="submit"  class="btn btn-sm btn-outline-secondary">
+                        <button onclick="hapus('.$id.')" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modal-delete">
                             <i class="tf-icons bx bx-trash"></i>
                         </button>
-                        </div>
-                    </form>
-                ';
+                        </div>';
                 return $html;
             })
-            ->rawColumns([ 'action'])
+            ->rawColumns(['action'])
             ->addColumn('nama_depan', function(UserProfile $user){
                 return $user->first_name;
             })
@@ -52,7 +60,7 @@ class UserProfileDataTable extends DataTable
             ->addColumn('jenis_kelamin', function(UserProfile $user){
                 return $user->gender == 'L' ? 'Laki-Laki' : 'Perempuan';
             })
-            ->setRowId('id');
+            ->addIndexColumn();
     }
 
     /**

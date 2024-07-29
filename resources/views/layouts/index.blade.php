@@ -17,7 +17,7 @@
     <title>SIP</title>
 
     <meta name="description" content="" />
-
+    @stack('head')
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('sneat/assets/img/favicon/favicon.ico')}}" />
 

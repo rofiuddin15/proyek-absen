@@ -10,7 +10,6 @@
         <div class="card mb-2">
           <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Tambah Grup Shift</h5>
-            <small class="text-muted float-end">Default label</small>
           </div>
           <div class="card-body">
             <form method="POST" action="{{ route('shift-grup.store')}}">

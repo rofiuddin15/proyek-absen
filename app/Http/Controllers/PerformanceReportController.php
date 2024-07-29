@@ -2,25 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Http\Request;
+use App\Models\PerformanceReport;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use App\Models\PerformanceReportFile;
+use Illuminate\Support\Facades\Storage;
 use App\DataTables\PerformanceReportsDataTable;
 use App\Http\Requests\PerformanceReportRequest;
-use App\Models\PerformanceReport;
-use App\Models\PerformanceReportFile;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
+use App\DataTables\PerformanceReportsAdminDataTable;
 
 class PerformanceReportController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(PerformanceReportsDataTable $dataTable)
+    public function index(PerformanceReportsDataTable $dataTable, PerformanceReportsAdminDataTable $dataTableAdmin)
     {
         // $data = PerformanceReport::with('file')->orderBy("created_at","desc")->paginate(10);
-        return $dataTable->render('laporan.kinerja.index');
+        $user = User::findorfail(auth()->user()->id);
+        if ($user->hasPermissionTo('RekapPresensi Read(Admin)')) {
+            return $dataTableAdmin->render('laporan.kinerja.index');
+        } else {
+            return $dataTable->render('laporan.kinerja.index');
+        }
 
     }
 

@@ -32,7 +32,7 @@ class PerformanceReportsDataTable extends DataTable
             ->addColumn('file', function(PerformanceReport $performanceReport){
                 $imageUrl = url('/storage/kinerja/' . $performanceReport->file->photo);
                 $img = '
-                <img src="'. $imageUrl . '" alt="Image broken" class="img-thumbnail rounded object-fit-fill">
+                <img src="'. $imageUrl . '" alt="Image broken" class="img-thumbnail rounded object-fit-fill" height="100" width="100">
                 ';
                 return $img;
             })

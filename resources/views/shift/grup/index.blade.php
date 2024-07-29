@@ -1,5 +1,14 @@
 @extends('layouts.index')
 
+@push('head')
+<meta name="csrf_token" content="{{ csrf_token() }}" />		
+@endpush
+
+@push('css')
+<link rel="stylesheet" href="{{ asset('sneat/assets/css/datatables.css')}}" />
+<link rel="stylesheet" href="{{ asset('sneat/assets/css/toastr.min.css')}}" />    
+@endpush
+
 @section('content')
   <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-2 mb-2">
@@ -17,48 +26,77 @@
           </div>
         </div>
       </div>
-      <div class="table-responsive text-nowrap">
-        <table class="table table-stripped">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Nama Grup (Shift)</th>
-              <th>Nama Shift</th>
-              <th>Jam Shift</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
-          <tbody class="table-border-bottom-0">
-            @foreach ($data as $item)
-            <tr>
-              <td><i class="fab fa-angular fa-lg text-danger me-3"></i>{{$loop->iteration}}</td>
-              <td>{{ $item->name }}</td>
-              <td>{{ $item->shift_presence->name }}</td>
-              <td>{{ $item->shift_presence->start_time }} - {{ $item->shift_presence->end_time }}</td>
-              <td>
-                <div class="btn-group btn-small" role="group" aria-label="First group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">
-                      <i class="tf-icons bx bx-pencil"></i>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">
-                      <i class="tf-icons bx bx-trash"></i>
-                    </button>
-                  </div>
-              </td>
-            </tr>        
-            @endforeach
-          </tbody>
-        </table>
+      <div class="card-body table-responsive text-nowrap">
+        {{ $dataTable->table() }}
       </div>
     </div>
     <!--/ Basic Bootstrap Table -->
+  </div>
+  <div class="modal fade" id="modal-delete" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+      <form class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="backDropModalTitle">Perhatian!</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col mb-3">
+              <h5>Yakin akan menghapus data ini &hellip;?</h5>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            Tidak
+          </button>
+          <button type="button" id="hapus" class="btn btn-warning">Ya</button>
+        </div>
+      </form>
+    </div>
   </div>
 @endsection
 
 @push('js')
 <!-- Page JS -->
 <script src="{{ asset('sneat/assets/js/ui-modals.js') }}"></script>
-<script>
-  
+<script src="{{ asset('/sneat/assets/js/datatables.js')}}"></script>
+  {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+  <script src="{{ asset('sneat/assets/js/toastr.min.js')}}"></script>
+<script type="text/javascript">
+	function hapus(e) {
+			var id = e;
+			$('#hapus').data('id', id);
+	}
+	$('#hapus').click(function() {
+			var id = $(this).data('id');
+			console.log(id);
+			var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+			$.ajax({
+					url: 'shift-grup/'+id,
+					type: 'DELETE',
+					data: {_token: "{{ csrf_token() }}", method: 'DELETE'},
+					beforeSend: function () {
+							var span = document.createElement('span');
+							span.classList.add('fa');
+							span.classList.add('fa-spinner');
+							span.classList.add('fa-spin');
+							$('#hapus').addClass('disabled');
+							$('#hapus').append(span);
+					},
+					success: function(res) {
+							setTimeout(function(){
+									$('#modal-delete').modal('hide');
+									$('#grupshift-table').DataTable().ajax.reload();
+									toastr.success('Halaman berhasil di hapus', res);
+							}, 1000)
+					}
+			})
+	});
 </script>
 @endpush

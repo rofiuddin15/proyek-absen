@@ -34,5 +34,17 @@ class PermissionSeeder extends Seeder
         Permission::create(["name"=> "ShiftGrup Delete", "guard_name" => $guard_name]);
         Permission::create(["name"=> "RekapPresensi Read(Admin)", "guard_name" => $guard_name]);
         Permission::create(["name"=> "RekapPresensi Read(Karyawan)", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "PerformanceRepot Read", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "PerformanceRepot Create", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "PerformanceRepot Update", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "PerformanceRepot Delete", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "EmployeePermits Read", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "EmployeePermits Create", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "EmployeePermits Update", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "EmployeePermits Delete", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "EmployeeAssignment Read", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "EmployeeAssignment Create", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "EmployeeAssignment Update", "guard_name" => $guard_name]);
+        Permission::create(["name"=> "EmployeeAssignment Delete", "guard_name" => $guard_name]);
     }
 }

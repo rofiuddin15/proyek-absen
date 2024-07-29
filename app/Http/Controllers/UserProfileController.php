@@ -229,9 +229,16 @@ class UserProfileController extends Controller
             }
 
             $profile->delete();
-            $user->delete();
+            $delUser = $user->delete();
 
-            return redirect()->route('karyawan.index');
+            // return redirect()->route('karyawan.index');
+            if ($delUser) {
+                return response()->json(['success' => 'success']);
+            } else {
+                toastr()->warning('Page gagal di hapus', 'Gagal');
+                return redirect()->back();
+            }
+    
         }
     }
 }

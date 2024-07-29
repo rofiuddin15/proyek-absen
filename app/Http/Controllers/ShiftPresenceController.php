@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ShiftDataTable;
 use App\Models\ShiftPresence;
 use Illuminate\Http\Request;
 
@@ -10,10 +11,11 @@ class ShiftPresenceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(ShiftDataTable $dataTable)
     {
         $data = ShiftPresence::all();
-        return view("shift.absen.index", compact("data"));
+        // return view("shift.absen.index", compact("data"));
+        return $dataTable->render("shift.absen.index");
     }
 
     /**
@@ -54,17 +56,27 @@ class ShiftPresenceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ShiftPresence $shiftPresence)
+    public function edit($id)
     {
-        //
+        $data = ShiftPresence::where('id', $id)->first();
+        return view('shift.absen.edit', compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ShiftPresence $shiftPresence)
+    public function update(Request $request, $id)
     {
-        //
+        $data = ShiftPresence::findOrFail($id);
+        $data->name = $request->name;
+        $data->start_time = $request->start_time;
+        $data->end_time = $request->end_time;
+        $data->range_open_presence = $request->range_open;
+        if($data->update())
+        {
+            toastr()->success('Shift berhasil di update');
+            return redirect()->route('shift-absen.index');
+        }
     }
 
     /**

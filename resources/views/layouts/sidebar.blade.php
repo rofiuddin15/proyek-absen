@@ -85,8 +85,9 @@
           <i class="menu-icon tf-icons bx bx-briefcase"></i>
           <div data-i18n="Layouts">Karyawan</div>
         </a>
-
+        
         <ul class="menu-sub">
+          @hasanyrole('Admin|Karyawan|admin|staff|karyawan')
           @if (auth()->user())
           <li class="menu-item {{ Request::is('profil*') ? 'active' : ''}}">
             <a href="{{ route('profil.show')}}" class="menu-link">
@@ -99,20 +100,25 @@
               <div data-i18n="Without navbar">Presensi</div>
             </a>
           </li>
-          <li class="menu-item {{ Request::is('presensi-rekap*') ? 'active' : ''}}">
-            <a href="{{ route('presensi-rekap.index') }}" class="menu-link">
-              <div data-i18n="Without navbar">Rekap Presensi</div>
+          {{-- <li class="menu-item {{ Request::is(['riwayat-presensi', 'presensi/*']) ? 'active' : ''}}">
+            <a href="{{ route('presensi.create') }}" class="menu-link">
+              <div data-i18n="Without navbar">Riwayat Presensi</div>
             </a>
-          </li>
+          </li> --}}
           <li class="menu-item {{ Request::is('laporan-kinerja*') ? 'active' : ''}}">
             <a href="{{ route('laporan-kinerja.index')}}" class="menu-link">
               <div data-i18n="Container">Laporan Kinerja</div>
             </a>
           </li>
-          
+          <li class="menu-item {{ Request::is('presensi-rekap*') ? 'active' : ''}}">
+            <a href="{{ route('presensi-rekap.index') }}" class="menu-link">
+              <div data-i18n="Without navbar">Rekap Presensi</div>
+            </a>
+          </li>
+          @endhasanyrole
         </ul>
       </li>
-
+      @hasanyrole('Admin|admin|direktur|Direktur')
       <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Pengguna</span>
       </li>
@@ -162,15 +168,14 @@
         </ul>
       </li>
       <!-- Components -->
-      <li class="menu-header small text-uppercase"><span class="menu-header-text">Sistem</span></li>
+      {{-- <li class="menu-header small text-uppercase"><span class="menu-header-text">Sistem</span></li>
       <!-- Cards -->
       <li class="menu-item">
         <a href="/" class="menu-link">
           <i class="menu-icon tf-icons bx bx-collection"></i>
           <div data-i18n="Basic">Profil</div>
         </a>
-      </li>
-      
-      
+      </li> --}}
+      @endhasanyrole
     </ul>
   </aside>

@@ -18,7 +18,7 @@
             </div>
           </div>
         </div>
-      <div class="table-responsive text-nowrap">
+      <div class="card-body table-responsive text-nowrap">
         <table class="table table-stripped">
           <thead>
 

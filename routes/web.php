@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('shift-absen', ShiftPresenceController::class);
     Route::resource('presensi', PresenceController::class);
     Route::resource('karyawan', UserProfileController::class);
+    // Route::get('riwayat-presensi', [PresenceController::class, 'riwayat'])->name('riwayat-presensi');
     // Route::get('/profil', [UserProfileController::class, 'show'])->name('profil.show');
     Route::controller(UserProfileController::class)->group(function(){
         Route::get('/profil', 'show')->name('profil.show');

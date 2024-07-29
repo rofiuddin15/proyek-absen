@@ -77,7 +77,7 @@ class RekapPresenceAdminDataTable extends DataTable
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
-                        Button::make('pdf'),
+                        Button::make('pdfHtml5'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
