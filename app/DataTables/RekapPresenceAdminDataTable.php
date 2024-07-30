@@ -33,7 +33,9 @@ class RekapPresenceAdminDataTable extends DataTable
                 return $formattedDate;
             })
             ->addColumn('Nama', function(Presence $presence){
-                return $presence->user_profile->first_name . ' ' . $presence->user_profile->last_name;
+                $nd = $presence->user_profile->first_name !== null ? $presence->user_profile->first_name : '';
+                $nb = $presence->user_profile->last_name !== null ? $presence->user_profile->last_name : '';
+                return $nd . ' ' . $nb;
             })
             ->addColumn('Jam Masuk', function(Presence $presence){
                 $status = $presence->status == "late" ? "Telat" : '';

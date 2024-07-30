@@ -13,12 +13,11 @@ $profile = App\Models\UserProfile::where('user_id', auth()->user()->id)->first()
             <div class="col-sm-7">
               <div class="card-body">
                 <h2 class="card-title text-primary">Selamat Datang {{$profile->first_name . ' ' . $profile->last_name}}! 🎉</h2>
-                {{-- <p class="mb-4">
-                  Kamu telah menyelesaikan <span class="fw-bold">72%</span> Pekerjaan hari ini. Check your new badge in
-                  your profile.
-                </p> --}}
+                <p class="mb-4">
+                  Kamu bisa mengisi <span class="fw-bold">Presensi</span> melalui tombol dibawah ini.
+                </p>
 
-                {{-- <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a> --}}
+                <a href="{{ route('presensi.create')}}" class="btn btn-lg btn-primary">Absen Sekarang</a>
               </div>
             </div>
             <div class="col-sm-5 text-center text-sm-left">
